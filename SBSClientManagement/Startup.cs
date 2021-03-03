@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SBSClientManagement.Data;
+using SBSClientManagement.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,12 @@ namespace SBSClientManagement
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            //Dependency Injection
+            services.AddScoped<IClientRepo, ClientRepo>();
+            services.AddScoped<IServersRepo, ServersRepo>();
+            services.AddScoped<IVpnRepo, VpnRepo>();
+            services.AddScoped<ISqlServerRepo, SqlServerRepo>();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
