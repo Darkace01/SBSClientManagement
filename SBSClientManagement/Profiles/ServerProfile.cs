@@ -13,8 +13,8 @@ namespace SBSClientManagement.Profiles
         public ServerProfile()
         {
             CreateMap<Server, ViewServerViewModel>();
-            CreateMap<CreateClientServerViewModel, Server>();
-            CreateMap<Client, CreateClientServerViewModel>();
+            CreateMap<CreateClientServerClientViewModel, Server>();
+            CreateMap<Client, CreateClientServerClientViewModel>();
             CreateMap<CreateServerViewModel, Server>();
             CreateMap<Server, EditServerViewModel>();
             CreateMap<EditServerViewModel, Server>();

@@ -41,9 +41,10 @@ namespace SBSClientManagement.Controllers
             if (id < 0)
                 return NotFound();
             var _server = _serverRepo.GetById(id);
-            var _client = _clientRepo.GetById(_server.ClientId);
             if (_server == null)
                 return NotFound();
+            var _client = _clientRepo.GetById(_server.ClientId);
+            
             ViewServerViewModel server = _mapper.Map<ViewServerViewModel>(_server);
 
             server.ClientName = _client.Name;
@@ -53,7 +54,7 @@ namespace SBSClientManagement.Controllers
 
         public ActionResult Create()
         {
-            var client = _mapper.Map<IEnumerable<CreateClientServerViewModel>>(_clientRepo.GetClients());
+            var client = _mapper.Map<IEnumerable<CreateClientServerClientViewModel>>(_clientRepo.GetClients());
             var server = new CreateServerViewModel();
             server.Client = client;
             return View(server);
@@ -88,10 +89,10 @@ namespace SBSClientManagement.Controllers
                 return NotFound();
             EditServerViewModel server = _mapper.Map<EditServerViewModel>(_server);
             var selectedClient = _clientRepo.GetById(_server.ClientId);
-            server.SelectedClient = _mapper.Map<CreateClientServerViewModel>(selectedClient);
+            server.SelectedClient = _mapper.Map<CreateClientServerClientViewModel>(selectedClient);
 
             server.SelectedCategory = _server.Categories.ToString();
-            server.Clients = _mapper.Map<IEnumerable<CreateClientServerViewModel>>(_clientRepo.GetClients()
+            server.Clients = _mapper.Map<IEnumerable<CreateClientServerClientViewModel>>(_clientRepo.GetClients()
                 .Where(c => c.Id != selectedClient.Id));
 
             return View(server);

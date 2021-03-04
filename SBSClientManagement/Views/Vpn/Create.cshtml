@@ -1,17 +1,16 @@
-﻿@model SBSClientManagement.Models.ViewModel.EditServerViewModel
-@using SBSClientManagement.Models.ViewModel
+﻿@model SBSClientManagement.Models.ViewModel.CreateVpnViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Create";
 }
 
-<h1>Edit</h1>
+<h1>Create</h1>
 
-<h4>EditServerViewModel</h4>
+<h4>CreateVpnViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -29,16 +28,8 @@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Categories" class="control-label"></label>
-                <select asp-for="Categories" class="form-control" asp-items="@Html.GetEnumSelectList<EditServerViewModel.Category>().Where(c => c.Text != Model.SelectedCategory)">
-                    <option value="@Model.SelectedCategory">@Model.SelectedCategory</option>
-                </select>
-                
-                <span asp-validation-for="Categories" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="ClientId" class="control-label"></label>
-                <select asp-for="ClientId" class="form-control" required>
+                <select asp-for="ClientId" class="form-control" required >
                     <option value="">Select Client</option>
                     @{
                         foreach (var client in Model.Clients)
@@ -47,12 +38,11 @@
                         }
 
                     }
-                    <option value="@Model.SelectedClient.Id">@Model.SelectedClient.Name</option>
                 </select>
                 <span asp-validation-for="ClientId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary form-control" />
             </div>
         </form>
     </div>

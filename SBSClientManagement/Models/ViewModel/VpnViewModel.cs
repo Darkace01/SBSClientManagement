@@ -5,78 +5,50 @@ using System.Threading.Tasks;
 
 namespace SBSClientManagement.Models.ViewModel
 {
-    public class ViewServerViewModel
+    public class ViewVpnViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public Category Categories { get; set; }
-        public int ClientId { get; set; }
         public string ClientName { get; set; }
-
-        public enum Category
-        {
-            Test,
-            Live,
-            Devlopment
-        }
+        public int ClientId { get; set; }
     }
 
-    public class CreateServerViewModel
+    public class CreateVpnViewModel
     {
         public int Id { get; set; }
         public DateTime DateCreated { get; set; } = DateTime.UtcNow;
         public string Name { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public Category Categories { get; set; }
+        public IEnumerable<CreateVpnClientViewModel> Clients { get; set; }
         public int ClientId { get; set; }
-        public IEnumerable<CreateClientServerClientViewModel> Client { get; set; }
-
-        public enum Category
-        {
-            Test,
-            Live,
-            Devlopment
-        }
     }
 
-    public class CreateClientServerClientViewModel
+    public class CreateVpnClientViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
     }
 
-    public class EditServerViewModel
+    public class EditVpnViewModel
     {
         public int Id { get; set; }
         public DateTime DateCreated { get; set; } = DateTime.UtcNow;
         public string Name { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public string SelectedCategory { get; set; }
-        public Category Categories { get; set; }
+        public IEnumerable<CreateVpnClientViewModel> Clients { get; set; }
         public int ClientId { get; set; }
-        public IEnumerable<CreateClientServerClientViewModel> Clients { get; set; }
-        public CreateClientServerClientViewModel SelectedClient { get; set; }
-
-        public enum Category
-        {
-            Test,
-            Live,
-            Devlopment
-        }
+        public CreateVpnClientViewModel SelectedClient { get; set; }
     }
 
-    public class DeleteServerViewModel
+    public class DeleteVpnViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Password { get; set; }
         public string Username { get; set; }
-        public string Category { get; set; }
-        public string ClientName { get; set; }
+        public string Password { get; set; }
     }
-
 }
