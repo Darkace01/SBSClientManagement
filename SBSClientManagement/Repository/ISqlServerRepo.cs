@@ -10,5 +10,6 @@ namespace SBSClientManagement.Repository
         SQLServer GetById(int Id);
         IEnumerable<SQLServer> GetSQLServers();
         void Update(SQLServer sqlserver);
+        void Delete(SQLServer sqlserver);
     }
 }

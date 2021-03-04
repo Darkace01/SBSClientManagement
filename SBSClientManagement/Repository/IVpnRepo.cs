@@ -10,5 +10,6 @@ namespace SBSClientManagement.Repository
         Vpn GetById(int Id);
         IEnumerable<Vpn> GetVpns();
         void Update(Vpn vpn);
+        void Delete(Vpn vpn);
     }
 }

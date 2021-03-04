@@ -50,6 +50,12 @@ namespace SBSClientManagement.Repository
             SaveChanges();
         }
 
+        public void Delete(Server server)
+        {
+            _ctx.Servers.Remove(server);
+            SaveChanges();
+        }
+
         public bool SaveChanges()
         {
             return (_ctx.SaveChanges() >= 0);

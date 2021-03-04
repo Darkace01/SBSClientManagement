@@ -46,13 +46,19 @@ namespace SBSClientManagement.Repository
 
         public void Update(Vpn vpn)
         {
-            _ctx.Clients.Update(vpn);
+            _ctx.Vpns.Update(vpn);
             SaveChanges();
         }
 
         public bool SaveChanges()
         {
             return (_ctx.SaveChanges() >= 0);
+        }
+
+        public void Delete(Vpn vpn)
+        {
+            _ctx.Vpns.Remove(vpn);
+            SaveChanges();
         }
     }
 }

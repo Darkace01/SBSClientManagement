@@ -55,5 +55,11 @@ namespace SBSClientManagement.Repository
         {
             return (_ctx.SaveChanges() >= 0);
         }
+
+        public void Delete(SQLServer sqlserver)
+        {
+            _ctx.SQLServers.Remove(sqlserver);
+            SaveChanges();
+        }
     }
 }
