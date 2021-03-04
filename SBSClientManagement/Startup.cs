@@ -13,6 +13,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+
 
 namespace SBSClientManagement
 {
@@ -40,6 +42,10 @@ namespace SBSClientManagement
             services.AddScoped<ISqlServerRepo, SqlServerRepo>();
 
             services.AddControllersWithViews();
+
+            //AutoMapper
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.AddRazorPages();
         }
 
