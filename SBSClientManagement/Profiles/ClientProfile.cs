@@ -12,10 +12,15 @@ namespace SBSClientManagement.Profiles
     {
         public ClientProfile()
         {
+            CreateMap<Client, ViewClientDetailViewModel>();
             CreateMap<Client, ViewClientViewModel>();
             CreateMap<Server, ViewServer>();
             CreateMap<Vpn, ViewVpn>();
             CreateMap<SQLServer, ViewSQLServer>();
+            CreateMap<CreateClientViewModel, Client>();
+            CreateMap<Client, EditClientViewModel>();
+            CreateMap<EditClientViewModel, Client>();
+            CreateMap<Client, DeleteClientViewModel>();
         }
     }
 

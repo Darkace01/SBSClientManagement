@@ -7,7 +7,7 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-info">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -16,12 +16,8 @@
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateCreate)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th></th>
             <th></th>
         </tr>
     </thead>
@@ -32,24 +28,14 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DateCreate)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @foreach (var server in item.Servers.Where(x => x.ClientId == item.Id))
-                {
-                <td>@Html.DisplayFor(modelItem => server.Name)</td>
-                <td>@Html.DisplayFor(modelItem => server.Username)</td>
-                <td>@Html.DisplayFor(modelItem => server.Password)</td>
-                <td>@Html.DisplayFor(modelItem => server.Categories)</td>
-            }
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id= item.Id  }) |
+                    @Html.ActionLink("Delete", "DeleteConfirmation", new { id=item.Id })
                 </td>
             </tr>
 }

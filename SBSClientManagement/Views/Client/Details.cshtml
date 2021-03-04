@@ -1,0 +1,71 @@
+﻿@model SBSClientManagement.Models.ViewModel.ViewClientDetailViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container">
+    <p class="font-weight-bold">Client Details</p>
+    <div class="row">
+        <div class="col-md-6">
+            <p>@Html.DisplayNameFor(m => Model.Name)</p>
+        </div>
+        <div class="col-md-6">
+            <p>@Html.DisplayFor(m => Model.Name)</p>
+        </div>
+    </div>
+    <hr class="border-danger" style="width: 100%;" />
+    <p class="font-weight-bold">Server Details</p>
+    <div class="row">
+        @foreach (var item in Model.Servers)
+        {
+            <div class="col-md-6">
+                <p>@Html.DisplayNameFor(m => item.Name)</p>
+                <p>@Html.DisplayNameFor(m => item.Username)</p>
+                <p>@Html.DisplayNameFor(m => item.Password)</p>
+                <p>@Html.DisplayNameFor(m => item.Categories)</p>
+            </div>
+            <div class="col-md-6">
+                <p>@Html.DisplayFor(m => item.Name)</p>
+                <p>@Html.DisplayFor(m => item.Username)</p>
+                <p>@Html.DisplayFor(m => item.Password)</p>
+                <p>@Html.DisplayFor(m => item.Categories)</p>
+            </div>
+            <hr class="border-danger" style="width: 100%;" />
+        }
+    </div>
+    <p class="font-weight-bold">VPN Details</p>
+    <div class="row">
+        @foreach (var item in Model.VPN)
+        {
+            <div class="col-md-6">
+                <p>@Html.DisplayNameFor(m => item.Name)</p>
+                <p>@Html.DisplayNameFor(m => item.Username)</p>
+                <p>@Html.DisplayNameFor(m => item.Password)</p>
+            </div>
+            <div class="col-md-6">
+                <p>@Html.DisplayFor(m => item.Name)</p>
+                <p>@Html.DisplayFor(m => item.Username)</p>
+                <p>@Html.DisplayFor(m => item.Password)</p>
+            </div>
+            <hr class="border-danger" style="width: 100%;" />
+        }
+    </div>
+    <p class="font-weight-bold">SQLServer Details</p>
+    <div class="row">
+        @foreach (var item in Model.VPN)
+        {
+            <div class="col-md-6">
+                <p>@Html.DisplayNameFor(m => item.Name)</p>
+                <p>@Html.DisplayNameFor(m => item.Username)</p>
+                <p>@Html.DisplayNameFor(m => item.Password)</p>
+            </div>
+            <div class="col-md-6">
+                <p>@Html.DisplayFor(m => item.Name)</p>
+                <p>@Html.DisplayFor(m => item.Username)</p>
+                <p>@Html.DisplayFor(m => item.Password)</p>
+            </div>
+            <hr class="border-danger" style="width: 100%;" />
+        }
+    </div>
+</div>
