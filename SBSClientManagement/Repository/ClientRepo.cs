@@ -27,14 +27,14 @@ namespace SBSClientManagement.Repository
 
         public Client GetById(int Id)
         {
-            if (Id > 0)
+            if (Id <= 0)
                 throw new ArgumentNullException("Client");
             return _ctx.Clients.Where(c => c.Id == Id).FirstOrDefault();
         }
 
         public Client GetByIdWithRelationship(int Id)
         {
-            if (Id > 0)
+            if (Id <= 0)
                 throw new ArgumentNullException("Client");
             return _ctx.Clients.Where(c => c.Id == Id)
                 .Include(x => x.Servers)
@@ -59,8 +59,16 @@ namespace SBSClientManagement.Repository
             return clients;
         }
 
-        public void Update()
+        public void Update(Client client)
         {
+            _ctx.Clients.Update(client);
+            SaveChanges();
+        }
+
+        public void Delete(Client client)
+        {
+            _ctx.Clients.Remove(client);
+
             SaveChanges();
         }
 

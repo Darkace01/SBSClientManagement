@@ -8,7 +8,8 @@ namespace SBSClientManagement.Repository
         void Create(Client client);
         Client GetById(int Id);
         IEnumerable<Client> GetClients();
-        void Update();
+        void Update(Client client);
+        void Delete(Client client);
         Client GetByIdWithRelationship(int Id);
         IEnumerable<Client> GetClientsWithRelationship();
     }
