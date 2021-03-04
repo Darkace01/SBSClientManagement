@@ -44,8 +44,9 @@ namespace SBSClientManagement.Repository
             return vpns;
         }
 
-        public void Update()
+        public void Update(Vpn vpn)
         {
+            _ctx.Clients.Update(vpn);
             SaveChanges();
         }
 

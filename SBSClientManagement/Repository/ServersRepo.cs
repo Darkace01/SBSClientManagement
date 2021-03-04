@@ -44,8 +44,9 @@ namespace SBSClientManagement.Repository
             return servers;
         }
 
-        public void Update()
+        public void Update(Server server)
         {
+            _ctx.Servers.Update(server);
             SaveChanges();
         }
 

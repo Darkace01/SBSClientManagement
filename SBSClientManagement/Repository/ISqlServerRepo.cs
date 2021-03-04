@@ -9,6 +9,6 @@ namespace SBSClientManagement.Repository
         SQLServer GetByClientId(int clientId);
         SQLServer GetById(int Id);
         IEnumerable<SQLServer> GetSQLServers();
-        void Update();
+        void Update(SQLServer sqlserver);
     }
 }

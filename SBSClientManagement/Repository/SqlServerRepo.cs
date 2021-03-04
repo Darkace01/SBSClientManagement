@@ -44,8 +44,10 @@ namespace SBSClientManagement.Repository
             return sqlServers;
         }
 
-        public void Update()
+        public void Update(SQLServer sqlserver)
         {
+            _ctx.SQLServers.Update(sqlserver);
+
             SaveChanges();
         }
 

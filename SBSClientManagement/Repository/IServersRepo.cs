@@ -9,6 +9,6 @@ namespace SBSClientManagement.Repository
         Server GetByClientId(int clientId);
         Server GetById(int Id);
         IEnumerable<Server> GetServers();
-        void Update();
+        void Update(Server server);
     }
 }
