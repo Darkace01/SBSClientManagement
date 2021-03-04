@@ -26,7 +26,7 @@ namespace SBSClientManagement.Repository
 
         public Server GetById(int Id)
         {
-            if (Id > 0)
+            if (Id <= 0)
                 throw new ArgumentNullException("Server");
             return _ctx.Servers.Where(c => c.Id == Id).FirstOrDefault();
         }

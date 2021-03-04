@@ -26,7 +26,7 @@ namespace SBSClientManagement.Repository
 
         public Vpn GetById(int Id)
         {
-            if (Id > 0)
+            if (Id <= 0)
                 throw new ArgumentNullException("Vpn");
             return _ctx.Vpns.Where(c => c.Id == Id).FirstOrDefault();
         }
