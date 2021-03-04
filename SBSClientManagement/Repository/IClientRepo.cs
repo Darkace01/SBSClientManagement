@@ -9,5 +9,7 @@ namespace SBSClientManagement.Repository
         Client GetById(int Id);
         IEnumerable<Client> GetClients();
         void Update();
+        Client GetByIdWithRelationship(int Id);
+        IEnumerable<Client> GetClientsWithRelationship();
     }
 }

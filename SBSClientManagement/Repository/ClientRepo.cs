@@ -1,4 +1,5 @@
-﻿using SBSClientManagement.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SBSClientManagement.Data;
 using SBSClientManagement.DTO;
 using System;
 using System.Collections.Generic;
@@ -31,9 +32,30 @@ namespace SBSClientManagement.Repository
             return _ctx.Clients.Where(c => c.Id == Id).FirstOrDefault();
         }
 
+        public Client GetByIdWithRelationship(int Id)
+        {
+            if (Id > 0)
+                throw new ArgumentNullException("Client");
+            return _ctx.Clients.Where(c => c.Id == Id)
+                .Include(x => x.Servers)
+                .Include(x => x.SQLServers)
+                .Include(x => x.VPN)
+                .FirstOrDefault();
+        }
+
         public IEnumerable<Client> GetClients()
         {
             var clients = _ctx.Clients.ToList();
+            return clients;
+        }
+
+        public IEnumerable<Client> GetClientsWithRelationship()
+        {
+            var clients = _ctx.Clients
+                .Include(x => x.Servers)
+                .Include(x => x.SQLServers)
+                .Include(x => x.VPN)
+                .ToList();
             return clients;
         }
 
