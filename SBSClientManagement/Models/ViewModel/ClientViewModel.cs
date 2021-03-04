@@ -9,7 +9,6 @@ namespace SBSClientManagement.Models.ViewModel
     public class ViewClientViewModel
     {
         public int Id { get; set; }
-        public DateTime DateCreated { get; set; }
         public string Name { get; set; }
     }
     public class ViewClientDetailViewModel
