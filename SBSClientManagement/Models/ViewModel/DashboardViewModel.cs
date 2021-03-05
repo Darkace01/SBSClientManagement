@@ -49,7 +49,7 @@ namespace SBSClientManagement.Models.ViewModel
     public class ViewDashboardSqlServerViewModel
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string InstanceName { get; set; }
         public int ClientId { get; set; }
         public string ClientName { get; set; }
     }
