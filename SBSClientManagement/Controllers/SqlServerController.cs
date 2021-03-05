@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SBSClientManagement.DTO;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace SBSClientManagement.Controllers
 {
+    [Authorize]
     public class SqlServerController : Controller
     { 
         private readonly ISqlServerRepo _sqlServerRepo;

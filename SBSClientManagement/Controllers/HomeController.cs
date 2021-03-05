@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SBSClientManagement.Models;
@@ -36,6 +37,7 @@ namespace SBSClientManagement.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Dashboard()
         {
             IEnumerable<ViewDashboardSqlServerViewModel> _sqlServers = _mapper.Map<IEnumerable<ViewDashboardSqlServerViewModel>>(_sqlServerRepo.GetSQLServers());

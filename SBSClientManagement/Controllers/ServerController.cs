@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SBSClientManagement.DTO;
 using SBSClientManagement.Models.ViewModel;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace SBSClientManagement.Controllers
 {
+    [Authorize]
     public class ServerController : Controller
     {
         private readonly IServersRepo _serverRepo;
