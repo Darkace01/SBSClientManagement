@@ -51,7 +51,7 @@ namespace SBSClientManagement.Controllers
             ViewVpnViewModel vpn = _mapper.Map<ViewVpnViewModel>(_vpn);
             vpn.ClientName = _client.Name;
 
-            return View(vpn);
+            return PartialView("_Details", vpn);
         }
 
         // GET: VpnController/Create
@@ -60,7 +60,7 @@ namespace SBSClientManagement.Controllers
             var client = _mapper.Map<IEnumerable<CreateVpnClientViewModel>>(_clientRepo.GetClients());
             var server = new CreateVpnViewModel();
             server.Clients = client;
-            return View(server);
+            return PartialView("_Create", server);
         }
 
         // POST: VpnController/Create
@@ -79,7 +79,7 @@ namespace SBSClientManagement.Controllers
             }
             catch
             {
-                return View(_vpn);
+                return RedirectToAction(nameof(Index));
             }
         }
 
@@ -98,7 +98,7 @@ namespace SBSClientManagement.Controllers
 
             vpn.Clients = _mapper.Map<IEnumerable<CreateVpnClientViewModel>>(_clientRepo.GetClients().Where(c => c.Id != selectedClient.Id));
 
-            return View(vpn);
+            return PartialView("_Edit", vpn);
         }
 
         // POST: VpnController/Edit/5
@@ -109,7 +109,7 @@ namespace SBSClientManagement.Controllers
             try
             {
                 if (!ModelState.IsValid)
-                    return View(_vpn);
+                    return PartialView("_Edit",_vpn);
 
                 var vpn = _mapper.Map<Vpn>(_vpn);
 
@@ -119,7 +119,7 @@ namespace SBSClientManagement.Controllers
             }
             catch
             {
-                return View(_vpn);
+                return RedirectToAction(nameof(Index));
             }
         }
 
@@ -134,7 +134,7 @@ namespace SBSClientManagement.Controllers
 
             DeleteVpnViewModel vpn = _mapper.Map<DeleteVpnViewModel>(_vpn);
 
-            return View(vpn);
+            return PartialView("_DeleteConfirmation", vpn);
         }
 
         // POST: VpnController/Delete/5

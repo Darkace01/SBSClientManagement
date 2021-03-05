@@ -1,15 +1,8 @@
 ﻿@model SBSClientManagement.Models.ViewModel.CreateClientViewModel
 
-@{
-    ViewData["Title"] = "Create";
-}
 
-<h1>Create</h1>
-
-<h4>Server</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -26,7 +19,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-info">Back to List</a>
 </div>
 
 @section Scripts {

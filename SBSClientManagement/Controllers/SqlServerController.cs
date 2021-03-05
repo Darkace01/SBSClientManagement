@@ -55,7 +55,7 @@ namespace SBSClientManagement.Controllers
             ViewSqlServerViewModel sqlServer = _mapper.Map<ViewSqlServerViewModel>(_sqlServer);
             sqlServer.ClientName = _client.Name;
             sqlServer.ServerName = _server.Name;
-            return View(sqlServer);
+            return PartialView("_Details", sqlServer);
         }
 
         // GET: SqlServerController/Create
@@ -67,7 +67,7 @@ namespace SBSClientManagement.Controllers
             sqlServer.Clients = client;
             sqlServer.Servers = server;
 
-            return View(sqlServer);
+            return PartialView("_Create", sqlServer);
         }
 
         // POST: SqlServerController/Create
@@ -86,7 +86,7 @@ namespace SBSClientManagement.Controllers
             }
             catch
             {
-                return View(_sqlServer);
+                return RedirectToAction(nameof(Index));
             }
         }
 
@@ -108,7 +108,7 @@ namespace SBSClientManagement.Controllers
             sqlServer.Clients = _mapper.Map<IEnumerable<CreateSqlServerClientViewModel>>(_clientRepo.GetClients().Where(c => c.Id != selectedClient.Id));
             sqlServer.Servers = _mapper.Map< IEnumerable<CreateSqlServerServerViewModel>>(_serverRepo.GetServers().Where(s => s.Id != selectedServer.Id));
 
-            return View(sqlServer);
+            return PartialView("_Edit", sqlServer);
         }
 
         // POST: SqlServerController/Edit/5
@@ -129,7 +129,7 @@ namespace SBSClientManagement.Controllers
             }
             catch
             {
-                return View(_sqlServer);
+                return RedirectToAction(nameof(Index));
             }
         }
 
@@ -144,7 +144,7 @@ namespace SBSClientManagement.Controllers
 
             DeleteSqlServerViewModel sqlServer = _mapper.Map<DeleteSqlServerViewModel>(_SqlServer);
 
-            return View(sqlServer);
+            return PartialView("_DeleteConfirmation", sqlServer);
         }
 
         // POST: SqlServerController/Delete/5

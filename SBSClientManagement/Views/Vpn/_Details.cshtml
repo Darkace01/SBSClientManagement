@@ -1,0 +1,34 @@
+﻿@model SBSClientManagement.Models.ViewModel.ViewVpnViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div>
+    <dl class="row">
+        <dt class = "col-sm-6">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-6">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-6">
+            @Html.DisplayNameFor(model => model.Username)
+        </dt>
+        <dd class = "col-sm-6">
+            @Html.DisplayFor(model => model.Username)
+        </dd>
+        <dt class = "col-sm-6">
+            @Html.DisplayNameFor(model => model.Password)
+        </dt>
+        <dd class = "col-sm-6">
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+        <dt class = "col-sm-6">
+            @Html.DisplayNameFor(model => model.ClientName)
+        </dt>
+        <dd class = "col-sm-6">
+            @Html.DisplayFor(model => model.ClientName)
+        </dd>
+    </dl>
+</div>
