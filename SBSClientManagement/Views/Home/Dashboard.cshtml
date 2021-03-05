@@ -190,7 +190,7 @@
                                     Id
                                 </th>
                                 <th>
-                                    Name
+                                    Instance Name
                                 </th>
                                 <th>
                                     Client Name
@@ -205,7 +205,7 @@
                                     @Html.DisplayFor(modelItem => item.Id)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Name)
+                                    @Html.DisplayFor(modelItem => item.InstanceName)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.ClientName)
@@ -220,7 +220,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer clearfix">
-                <a asp-controller="Server" asp-action="Index" class="btn btn-sm btn-info float-right">View All</a>
+                <a asp-controller="SqlServer" asp-action="Index" class="btn btn-sm btn-info float-right">View All</a>
             </div>
         </div>
     </div>
@@ -262,7 +262,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer clearfix">
-                <a asp-controller="Client" asp-action="Index" class="btn btn-sm btn-info float-right">View All</a>
+                <a asp-controller="Vpn" asp-action="Index" class="btn btn-sm btn-info float-right">View All</a>
             </div>
             <!-- /.card-footer -->
         </div>
