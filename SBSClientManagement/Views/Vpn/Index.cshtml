@@ -2,52 +2,186 @@
 
 @{
     ViewData["Title"] = "Index";
+    Layout = "/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<h1>Index</h1>
+<!-- TABLE: LATEST ORDERS -->
+<div class="card">
+    <div class="card-header border-transparent">
+        <h3 class="card-title">Vpn List</h3>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Username)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Password)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClientName)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Username)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClientName)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id}) |
-                @Html.ActionLink("Delete", "DeleteConfirmation", new { id=item.Id})
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        <div class="card-tools">
+            <a href="#" onclick="CreateVpnDetails()" class="btn btn-sm btn-info float-right">Create New</a>
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table m-0">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Username)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Password)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ClientName)
+                        </th>
+                        <th></th>
+                    </tr>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Username)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Password)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ClientName)
+                        </td>
+                        <td>
+                            <a href="#" onclick="EditVpnDetails(@item.Id)">Edit</a>
+                            <a href="#" onclick="ViewVpnDetails(@item.Id)">Details</a>
+                            <a href="#" onclick="DeleteVpnDetails(@item.Id)">Delete</a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+    <!-- /.card-body -->
+</div>
+<div class="modal fade" id="editModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit Vpn Details</h3>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body" id="editModalBody">
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+<div class="modal fade" id="createModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Create Vpn</h3>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body" id="createModalBody">
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="modal fade" id="viewModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Vpn Details</h3>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body" id="viewModalBody">
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="modal fade" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Delete Vpn Details</h3>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body" id="deleteModalBody">
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+    function EditVpnDetails(vpnId) {
+
+        var url = "/Vpn/Edit?id=" + vpnId;
+
+        $("#editModalBody").load(url, function () {
+            $("#editModal").modal("show");
+
+        })
+
+    }
+    function CreateVpnDetails() {
+
+        var url = "/Vpn/Create";
+
+        $("#createModalBody").load(url, function () {
+            $("#createModal").modal("show");
+
+        })
+
+    }
+
+    function ViewVpnDetails(vpnId) {
+
+        var url = "/Vpn/Details?id=" + vpnId;
+
+        $("#viewModalBody").load(url, function () {
+            $("#viewModal").modal("show");
+
+        })
+
+    }
+
+    function DeleteVpnDetails(vpnId) {
+
+        var url = "/Vpn/DeleteConfirmation?id=" + vpnId;
+
+        $("#deleteModalBody").load(url, function () {
+            $("#deleteModal").modal("show");
+
+        })
+
+    }
+</script>
