@@ -49,7 +49,7 @@ namespace SBSClientManagement.Controllers
 
             server.ClientName = _client.Name;
 
-            return View(server);
+            return PartialView("_Details", server);
         }
 
         public ActionResult Create()
@@ -57,7 +57,7 @@ namespace SBSClientManagement.Controllers
             var client = _mapper.Map<IEnumerable<CreateClientServerClientViewModel>>(_clientRepo.GetClients());
             var server = new CreateServerViewModel();
             server.Client = client;
-            return View(server);
+            return PartialView("_Create",server);
         }
 
         [HttpPost]
@@ -95,7 +95,7 @@ namespace SBSClientManagement.Controllers
             server.Clients = _mapper.Map<IEnumerable<CreateClientServerClientViewModel>>(_clientRepo.GetClients()
                 .Where(c => c.Id != selectedClient.Id));
 
-            return View(server);
+            return PartialView("_Edit", server);
         }
 
         [HttpPost]
@@ -129,7 +129,7 @@ namespace SBSClientManagement.Controllers
                 return NotFound();
 
             DeleteServerViewModel server = _mapper.Map<DeleteServerViewModel>(_server);
-            return View(server);
+            return PartialView("_DeleteConfirmation", server);
         }
 
         [HttpPost]
