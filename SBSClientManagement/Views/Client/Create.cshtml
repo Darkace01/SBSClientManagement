@@ -2,12 +2,10 @@
 
 @{
     ViewData["Title"] = "Create";
+    Layout = "/Views/Shared/_DashboardLayout.cshtml";
+
 }
-
-<h1>Create</h1>
-
-<h4>Server</h4>
-<hr />
+<h4>Create Server</h4>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -26,7 +24,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-info">Back to List</a>
 </div>
 
 @section Scripts {
