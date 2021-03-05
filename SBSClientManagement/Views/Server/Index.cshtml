@@ -154,9 +154,9 @@
 
 </div>
 <script>
-    function EditServerDetails(clientId) {
+    function EditServerDetails(serverId) {
 
-        var url = "/Server/Edit?id=" + clientId;
+        var url = "/Server/Edit?id=" + serverId;
 
         $("#editModalBody").load(url, function () {
             $("#editModal").modal("show");
@@ -175,9 +175,9 @@
 
     }
 
-    function ViewServerDetails(clientId) {
+    function ViewServerDetails(serverId) {
 
-        var url = "/Server/Details?id=" + clientId;
+        var url = "/Server/Details?id=" + serverId;
 
         $("#viewModalBody").load(url, function () {
             $("#viewModal").modal("show");
@@ -186,9 +186,9 @@
 
     }
 
-    function DeleteServerDetails(clientId) {
+    function DeleteServerDetails(serverId) {
 
-        var url = "/Server/DeleteConfirmation?id=" + clientId;
+        var url = "/Server/DeleteConfirmation?id=" + serverId;
 
         $("#deleteModalBody").load(url, function () {
             $("#deleteModal").modal("show");
