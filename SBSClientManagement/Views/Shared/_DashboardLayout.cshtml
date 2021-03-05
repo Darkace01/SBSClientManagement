@@ -28,10 +28,10 @@
                     <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="index3.html" class="nav-link">Home</a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="Index">Client</a>
                 </li>
                 <partial name="_LoginPartial" />
             </ul>
@@ -66,6 +66,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE -->
     <script src="~/theme/js/adminlte.js"></script>
+    @RenderSection("Scripts", required: false)
 
 </body>
 
