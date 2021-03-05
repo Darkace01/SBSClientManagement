@@ -23,7 +23,7 @@ namespace SBSClientManagement.Controllers
         }
 
         // GET: ClientController
-        public ActionResult Index()
+        public IActionResult Index()
         {
             var _clients = _clientRepo.GetClients();
             List<ViewClientViewModel> clients = _mapper.Map<IEnumerable<ViewClientViewModel>>(_clients).ToList();
@@ -31,7 +31,7 @@ namespace SBSClientManagement.Controllers
         }
 
         // GET: ClientController/Details/5
-        public ActionResult Details(int id)
+        public IActionResult  Details(int id)
         {
             if (id < 0)
                 return NotFound();
@@ -39,19 +39,19 @@ namespace SBSClientManagement.Controllers
             if (_client == null)
                 return NotFound();
             ViewClientDetailViewModel client = _mapper.Map<ViewClientDetailViewModel>(_client);
-            return View(client);
+            return PartialView("_Details",client);
         }
 
         // GET: ClientController/Create
-        public ActionResult Create()
+        public IActionResult  Create()
         {
-            return View();
+            return PartialView("_Create");
         }
 
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CreateClientViewModel _clientModel)
+        public IActionResult  Create(CreateClientViewModel _clientModel)
         {
             try
             {
@@ -64,12 +64,12 @@ namespace SBSClientManagement.Controllers
             }
             catch
             {
-                return View(_clientModel);
+                return PartialView("_Create",_clientModel);
             }
         }
 
         // GET: ClientController/Edit/5
-        public ActionResult Edit(int id)
+        public IActionResult  Edit(int id)
         {
             if (id < 0)
                 return NotFound();
@@ -78,13 +78,13 @@ namespace SBSClientManagement.Controllers
                 return NotFound();
             EditClientViewModel client = _mapper.Map<EditClientViewModel>(_client);
 
-            return View(client);
+            return PartialView("_Edit",client);
         }
 
         // POST: ClientController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(EditClientViewModel _clientModel)
+        public IActionResult  Edit(EditClientViewModel _clientModel)
         {
             try
             {
@@ -98,11 +98,11 @@ namespace SBSClientManagement.Controllers
             }
             catch
             {
-                return View();
+                return RedirectToAction(nameof(Index));
             }
         }
 
-        public ActionResult DeleteConfirmation(int id)
+        public IActionResult  DeleteConfirmation(int id)
         {
             if (id < 0)
                 return NotFound();
@@ -110,13 +110,13 @@ namespace SBSClientManagement.Controllers
             if (_client == null)
                 return NotFound();
             DeleteClientViewModel client = _mapper.Map<DeleteClientViewModel>(_client);
-            return View(client);
+            return PartialView("_DeleteConfirmation", client);
         }
 
         // POST: ClientController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(DeleteClientViewModel _client)
+        public IActionResult  Delete(DeleteClientViewModel _client)
         {
             try
             {

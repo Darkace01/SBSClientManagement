@@ -11,7 +11,7 @@
         <h3 class="card-title">Latest Orders</h3>
 
         <div class="card-tools">
-            <a asp-action="Create" class="btn btn-sm btn-info float-right">Create New</a>
+            <a href="#" onclick="CreateClientDetails()" class="btn btn-sm btn-info float-right">Create New</a>
             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                 <i class="fas fa-minus"></i>
             </button>
@@ -35,9 +35,9 @@
                             <td>@Html.DisplayFor(modelItem => item.Id)</td>
                             <td>@Html.DisplayFor(modelItem => item.Name)</td>
                             <td>
-                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                @Html.ActionLink("Delete", "DeleteConfirmation", new { id = item.Id })
+                                <a href="#" onclick="EditClientDetails(@item.Id)">Edit</a>
+                                <a href="#" onclick="ViewClientDetails(@item.Id)">Details</a>
+                                <a href="#" onclick="DeleteClientDetails(@item.Id)">Delete</a>
                             </td>
                         </tr>
                     }
@@ -48,3 +48,121 @@
     </div>
     <!-- /.card-body -->
 </div>
+<div class="modal fade" id="editModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit Client Details</h3>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body" id="editModalBody">
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+<div class="modal fade" id="createModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Create Client</h3>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body" id="createModalBody">
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="modal fade" id="viewModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Client Details</h3>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body" id="viewModalBody">
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="modal fade" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Delete Client Details</h3>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body" id="deleteModalBody">
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+    function EditClientDetails(clientId) {
+
+        var url = "/Client/Edit?id=" + clientId;
+
+        $("#editModalBody").load(url, function () {
+            $("#editModal").modal("show");
+
+        })
+
+    }
+    function CreateClientDetails() {
+
+        var url = "/Client/Create";
+
+        $("#createModalBody").load(url, function () {
+            $("#createModal").modal("show");
+
+        })
+
+    }
+
+    function ViewClientDetails(clientId) {
+
+        var url = "/Client/Details?id=" + clientId;
+
+        $("#viewModalBody").load(url, function () {
+            $("#viewModal").modal("show");
+
+        })
+
+    }
+
+    function DeleteClientDetails(clientId) {
+
+        var url = "/Client/DeleteConfirmation?id=" + clientId;
+
+        $("#deleteModalBody").load(url, function () {
+            $("#deleteModal").modal("show");
+
+        })
+
+    }
+</script>
