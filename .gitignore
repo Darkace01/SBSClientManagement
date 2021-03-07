@@ -340,3 +340,4 @@ ASALocalRun/
 healthchecksdb
 SBSClientManagement/.vscode/launch.json
 SBSClientManagement/.vscode/tasks.json
+SBSClientManagement/Properties/launchSettings.json
