@@ -16,7 +16,7 @@ namespace SBSClientManagement.Models.ViewModel
         public string ServerName { get; set; }
         public int ClientId { get; set; }
         public string ClientName { get; set; }
-        public bool HasServer { get; set; }
+
     }
 
     public class CreateSqlServerViewModel
@@ -66,6 +66,6 @@ namespace SBSClientManagement.Models.ViewModel
         public string InstanceName { get; set; }
         public string ServerName { get; set; }
         public string ClientName { get; set; }
-        public bool HasServer { get; set; }
+
     }
 }

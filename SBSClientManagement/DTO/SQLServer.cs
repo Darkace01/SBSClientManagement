@@ -12,6 +12,5 @@ namespace SBSClientManagement.DTO
         public string InstanceName { get; set; }
         public int ServerId { get; set; }
         public int ClientId { get; set; }
-        public bool HasServer { get; set; }
     }
 }

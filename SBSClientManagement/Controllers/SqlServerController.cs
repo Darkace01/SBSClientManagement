@@ -143,8 +143,12 @@ namespace SBSClientManagement.Controllers
             var _SqlServer = _sqlServerRepo.GetById(id);
             if (_SqlServer == null)
                 return NotFound();
+            var _server = _serverRepo.GetById(_SqlServer.ServerId);
+            var _client = _clientRepo.GetById(_SqlServer.ClientId);
 
             DeleteSqlServerViewModel sqlServer = _mapper.Map<DeleteSqlServerViewModel>(_SqlServer);
+            sqlServer.ClientName = _client.Name;
+            sqlServer.ServerName = _server.Name;
 
             return PartialView("_DeleteConfirmation", sqlServer);
         }
