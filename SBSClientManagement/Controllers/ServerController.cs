@@ -25,7 +25,7 @@ namespace SBSClientManagement.Controllers
             _clientRepo = clientRepo;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string searchString)
         {
             var _servers = _serverRepo.GetServers();
             var _clients = _clientRepo.GetClients();
@@ -34,6 +34,13 @@ namespace SBSClientManagement.Controllers
             {
                 item.ClientName = _clients.Where(c => c.Id == item.ClientId).FirstOrDefault().Name;
             }
+            if (!String.IsNullOrEmpty(searchString))
+                servers = servers.Where(
+                            s => s.Name.ToLower().Contains(searchString.ToLower()) 
+                            || s.Username.ToLower().Contains(searchString.ToLower())
+                            || s.ClientName.ToLower().Contains(searchString.ToLower())
+                            || s.Categories.ToString().ToLower().Contains(searchString.ToLower()))
+                            .ToList();
 
             return View(servers);
         }

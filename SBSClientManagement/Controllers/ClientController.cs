@@ -25,10 +25,13 @@ namespace SBSClientManagement.Controllers
         }
 
         // GET: ClientController
-        public IActionResult Index()
+        public IActionResult Index(string searchString)
         {
             var _clients = _clientRepo.GetClients();
+            
             List<ViewClientViewModel> clients = _mapper.Map<IEnumerable<ViewClientViewModel>>(_clients).ToList();
+            if (!String.IsNullOrEmpty(searchString))
+                clients = clients.Where(c => c.Name.ToLower().Contains(searchString.ToLower())).ToList();
             return View(clients);
         }
 

@@ -29,7 +29,7 @@ namespace SBSClientManagement.Controllers
         }
 
         // GET: SqlServerController
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
             var _sqlServers = _sqlServerRepo.GetSQLServers();
             var _clients = _clientRepo.GetClients();
@@ -40,6 +40,12 @@ namespace SBSClientManagement.Controllers
                 item.ClientName = _clients.Where(c => c.Id == item.ClientId).FirstOrDefault().Name;
                 item.ServerName = _servers.Where(c => c.Id == item.ServerId).FirstOrDefault().Name;
             }
+            if (!String.IsNullOrEmpty(searchString))
+                sqlServers = sqlServers.Where(s => 
+                                    s.ServerName.ToLower().Contains(searchString.ToLower())
+                                    || s.InstanceName.ToLower().Contains(searchString.ToLower())
+                                    || s.Username.ToLower().Contains(searchString.ToLower())
+                                    || s.ClientName.ToLower().Contains(searchString.ToLower())).ToList();
             return View(sqlServers);
         }
 
