@@ -68,4 +68,10 @@ namespace SBSClientManagement.Models.ViewModel
         public string ClientName { get; set; }
 
     }
+
+    public class SqlServerServerViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
 }

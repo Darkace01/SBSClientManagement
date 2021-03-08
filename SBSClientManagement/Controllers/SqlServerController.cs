@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SBSClientManagement.DTO;
 using SBSClientManagement.Models.ViewModel;
 using SBSClientManagement.Repository;
@@ -47,6 +48,15 @@ namespace SBSClientManagement.Controllers
                                     || s.Username.ToLower().Contains(searchString.ToLower())
                                     || s.ClientName.ToLower().Contains(searchString.ToLower())).ToList();
             return View(sqlServers);
+        }
+
+        public ActionResult GetClientByServerId(int clientId)
+        {
+            if (clientId < 0)
+                return NotFound();
+            var _servers = _serverRepo.GetClientServers(clientId);
+            List<SqlServerServerViewModel> servers = _mapper.Map<IEnumerable<SqlServerServerViewModel>>(_servers).ToList();
+            return Json(servers);
         }
 
         // GET: SqlServerController/Details/5

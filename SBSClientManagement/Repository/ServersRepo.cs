@@ -33,9 +33,16 @@ namespace SBSClientManagement.Repository
 
         public Server GetByClientId(int clientId)
         {
-            if (clientId > 0)
+            if (clientId <= 0)
                 throw new ArgumentNullException("Server");
             return _ctx.Servers.Where(c => c.ClientId == clientId).FirstOrDefault();
+        }
+
+        public IEnumerable<Server> GetClientServers(int clientId)
+        {
+            if (clientId <= 0)
+                throw new ArgumentNullException("Server");
+            return _ctx.Servers.Where(c => c.ClientId == clientId);
         }
 
         public IEnumerable<Server> GetServers()

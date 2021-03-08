@@ -19,6 +19,7 @@ namespace SBSClientManagement.Profiles
             CreateMap<SQLServer, EditSqlServerViewModel>();
             CreateMap<EditSqlServerViewModel, SQLServer>();
             CreateMap<SQLServer, DeleteSqlServerViewModel>();
+            CreateMap<Server, SqlServerServerViewModel>();
         }
     }
 }
