@@ -32,7 +32,7 @@ namespace SBSClientManagement.Repository
             return _ctx.Clients.Where(c => c.Id == Id).FirstOrDefault();
         }
 
-        public bool IsClient(string clientName)
+        public bool IsClientExist(string clientName)
         {
             if (String.IsNullOrEmpty(clientName))
                 throw new ArgumentException("Client Is Null");

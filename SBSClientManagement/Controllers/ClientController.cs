@@ -51,7 +51,7 @@ namespace SBSClientManagement.Controllers
         {
             if (String.IsNullOrEmpty(clientName))
                 return Json(false);
-            bool exist = _clientRepo.IsClient(clientName.ToLower());
+            bool exist = _clientRepo.IsClientExist(clientName.ToLower());
             return Json(exist);
         }
 
@@ -71,7 +71,7 @@ namespace SBSClientManagement.Controllers
                 if (!ModelState.IsValid)
                     return View(_clientModel);
                 var clientModel = _mapper.Map<Client>(_clientModel);
-                if (_clientRepo.IsClient(_clientModel.Name))
+                if (_clientRepo.IsClientExist(_clientModel.Name))
                     return Json(BadRequest("Client Already Exist"));
                 _clientRepo.Create(clientModel);
 

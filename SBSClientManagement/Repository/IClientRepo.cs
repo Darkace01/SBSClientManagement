@@ -11,7 +11,7 @@ namespace SBSClientManagement.Repository
         void Update(Client client);
         void Delete(Client client);
         Client GetByIdWithRelationship(int Id);
-        bool IsClient(string clientName);
+        bool IsClientExist(string clientName);
         IEnumerable<Client> GetClientsWithRelationship();
     }
 }
