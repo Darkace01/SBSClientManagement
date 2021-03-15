@@ -47,6 +47,14 @@ namespace SBSClientManagement.Controllers
             return PartialView("_Details",client);
         }
 
+        public IActionResult ClientExist(string clientName)
+        {
+            if (String.IsNullOrEmpty(clientName))
+                return Json(false);
+            bool exist = _clientRepo.IsClient(clientName.ToLower());
+            return Json(exist);
+        }
+
         // GET: ClientController/Create
         public IActionResult  Create()
         {
@@ -63,13 +71,15 @@ namespace SBSClientManagement.Controllers
                 if (!ModelState.IsValid)
                     return View(_clientModel);
                 var clientModel = _mapper.Map<Client>(_clientModel);
+                if (_clientRepo.IsClient(_clientModel.Name))
+                    return Json(BadRequest("Client Already Exist"));
                 _clientRepo.Create(clientModel);
 
-                return RedirectToAction(nameof(Index));
+                return Json(Ok());
             }
-            catch
+            catch(Exception ex)
             {
-                return PartialView("_Create",_clientModel);
+                return Json(BadRequest("Error Saving Client" + ex));
             }
         }
 
