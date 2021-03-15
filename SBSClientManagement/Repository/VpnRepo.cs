@@ -31,6 +31,13 @@ namespace SBSClientManagement.Repository
             return _ctx.Vpns.Where(c => c.Id == Id).FirstOrDefault();
         }
 
+        public bool IsVpnExist(string vpnName)
+        {
+            if (String.IsNullOrEmpty(vpnName))
+                throw new ArgumentException("Vpn is Null");
+            var vpn = _ctx.Vpns.Where(c => c.Name.ToLower() == vpnName).FirstOrDefault();
+            return vpn != null;
+        }
         public Vpn GetByClientId(int clientId)
         {
             if (clientId > 0)

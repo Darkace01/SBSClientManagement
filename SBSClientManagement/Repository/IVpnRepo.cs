@@ -11,5 +11,6 @@ namespace SBSClientManagement.Repository
         IEnumerable<Vpn> GetVpns();
         void Update(Vpn vpn);
         void Delete(Vpn vpn);
+        bool IsVpnExist(string vpnName);
     }
 }

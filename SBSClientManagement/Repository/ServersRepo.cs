@@ -35,8 +35,8 @@ namespace SBSClientManagement.Repository
         {
             if (String.IsNullOrEmpty(serverName))
                 throw new ArgumentException("Server Is Null");
-            var client = _ctx.Servers.Where(c => c.Name.ToLower() == serverName).FirstOrDefault();
-            return client != null;
+            var vpn = _ctx.Servers.Where(c => c.Name.ToLower() == serverName).FirstOrDefault();
+            return vpn != null;
         }
 
         public Server GetByClientId(int clientId)
