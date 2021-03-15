@@ -25,7 +25,7 @@
         let name = document.getElementById("name").value;
         error.value = "";
         if (name.length > 0) {
-            checkClient(name);
+            sendData();
         } else {
             error.innerHTML = "Input Client Name";
             return false;
@@ -36,28 +36,13 @@
         let name = document.getElementById("name").value;
         error.value = "";
         if (name.length > 0) {
-
-            checkClient(name);
+            sendData();
         } else {
             error.innerHTML = "Input Client Name";
             return false;
         }
 
     });
-    function checkClient(clientName) {
-        $.ajax({
-            url: "/Client/ClientExist/?clientName=" + clientName,
-            type: "GET",
-            success: function (result) {
-                if (result == false) {
-                    sendData();
-                } else {
-                    error.innerHTML = "Client Name Already Exist";
-                    return false;
-                }
-            }
-        })
-    }
     function sendData() {
         var valdata = $("#editClientForm").serialize();
         console.log(valdata);

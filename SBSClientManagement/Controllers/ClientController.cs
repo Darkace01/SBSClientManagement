@@ -50,7 +50,7 @@ namespace SBSClientManagement.Controllers
         public IActionResult ClientExist(string clientName)
         {
             if (String.IsNullOrEmpty(clientName))
-                return Json(false);
+                return Json(true);
             bool exist = _clientRepo.IsClientExist(clientName.ToLower());
             return Json(exist);
         }

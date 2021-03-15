@@ -12,5 +12,6 @@ namespace SBSClientManagement.Repository
         void Update(Server server);
         void Delete(Server server);
         IEnumerable<Server> GetClientServers(int clientId);
+        bool IsServerExist(string serverName);
     }
 }
