@@ -61,6 +61,14 @@ namespace SBSClientManagement.Controllers
             return PartialView("_Details", server);
         }
 
+        public IActionResult ServerExist(string serverName)
+        {
+            if (String.IsNullOrEmpty(serverName))
+                return Json(true);
+            bool exist = _serverRepo.IsServerExist(serverName.ToLower());
+            return Json(exist);
+        }
+
         public ActionResult Create()
         {
             var client = _mapper.Map<IEnumerable<CreateClientServerClientViewModel>>(_clientRepo.GetClients());
@@ -81,11 +89,11 @@ namespace SBSClientManagement.Controllers
 
                 _serverRepo.Create(serverModel);
 
-                return RedirectToAction(nameof(Index));
+                return Json(Ok());
             }
-            catch
+            catch(Exception ex)
             {
-                return View(_serverModel);
+                return Json(BadRequest("Error Saving Server" + ex));
             }
         }
 
@@ -109,7 +117,7 @@ namespace SBSClientManagement.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(EditServerViewModel _serverModel)
+        public IActionResult Edit(EditServerViewModel _serverModel)
         {
             try
             {
@@ -120,12 +128,12 @@ namespace SBSClientManagement.Controllers
 
                 _serverRepo.Update(server);
 
-                return RedirectToAction(nameof(Index));
+                return Json(Ok());
             }
-            catch
+            catch(Exception ex)
             {
 
-                return View(_serverModel);
+                return Json(BadRequest("Error Updating Server " + ex));
             }
         }
 

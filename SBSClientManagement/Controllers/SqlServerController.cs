@@ -100,11 +100,11 @@ namespace SBSClientManagement.Controllers
                 var sqlServer = _mapper.Map<SQLServer>(_sqlServer);
 
                 _sqlServerRepo.Create(sqlServer);
-                return RedirectToAction(nameof(Index));
+                return Json(Ok());
             }
-            catch
+            catch(Exception ex)
             {
-                return RedirectToAction(nameof(Index));
+                return Json(BadRequest("Error Saving SQL Server" + ex));
             }
         }
 
@@ -143,11 +143,11 @@ namespace SBSClientManagement.Controllers
 
                 _sqlServerRepo.Update(sqlServer);
 
-                return RedirectToAction(nameof(Index));
+                return Json(Ok());
             }
-            catch
+            catch(Exception ex)
             {
-                return RedirectToAction(nameof(Index));
+                return Json(BadRequest("Error Updating " + ex));
             }
         }
 

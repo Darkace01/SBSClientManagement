@@ -7,30 +7,32 @@
 
 <div class="row">
     <div class="col-md-12">
-        <form asp-action="Edit">
+        <form onsubmit="return validateForm()" id="newServerForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input asp-for="Id" hidden/>
+            <span class="text-danger" id="error"></span>
+            <input asp-for="Id" hidden />
+            @Html.AntiForgeryToken()
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <input asp-for="Name" class="form-control" id="name" required />
+                <span asp-validation-for="Name" class="text-danger" id="nameVal"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Username" class="control-label"></label>
-                <input asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-danger"></span>
+                <input asp-for="Username" class="form-control" id="username" required />
+                <span asp-validation-for="Username" class="text-danger" id="usernameVal"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
+                <input asp-for="Password" class="form-control" id="password" required />
+                <span asp-validation-for="Password" class="text-danger" id="passwordVal"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Category</label>
-                <select asp-for="Categories" class="form-control" asp-items="@Html.GetEnumSelectList<EditServerViewModel.Category>().Where(c => c.Text != Model.SelectedCategory)">
+                <select asp-for="Categories" class="form-control" asp-items="@Html.GetEnumSelectList<EditServerViewModel.Category>().Where(c => c.Text != Model.SelectedCategory)" required>
                     <option value="@Model.SelectedCategory">@Model.SelectedCategory</option>
                 </select>
-                
+
                 <span asp-validation-for="Categories" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -49,13 +51,10 @@
                 <span asp-validation-for="ClientId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Update" class="btn btn-primary form-control" />
+                <input type="button" value="Update" class="btn btn-primary form-control" onclick="return validateForm()" id="btnSubmit" />
             </div>
         </form>
     </div>
 </div>
 
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<script src="~/js/pages/editserver.js"></script>

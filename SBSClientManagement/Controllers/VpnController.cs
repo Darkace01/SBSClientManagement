@@ -45,6 +45,14 @@ namespace SBSClientManagement.Controllers
             return View(vpns);
         }
 
+        public IActionResult VpnExist(string vpnName)
+        {
+            if (String.IsNullOrEmpty(vpnName))
+                return Json(true);
+            bool exist = _vpnRepo.IsVpnExist(vpnName.ToLower());
+            return Json(exist);
+        }
+
         // GET: VpnController/Details/5
         public ActionResult Details(int id)
         {
@@ -82,11 +90,11 @@ namespace SBSClientManagement.Controllers
                 var vpn = _mapper.Map<Vpn>(_vpn);
 
                 _vpnRepo.Create(vpn);
-                return RedirectToAction(nameof(Index));
+                return Json(Ok());
             }
-            catch
+            catch(Exception ex)
             {
-                return RedirectToAction(nameof(Index));
+                return Json(BadRequest("Error Saving Vpn" + ex));
             }
         }
 
@@ -122,11 +130,11 @@ namespace SBSClientManagement.Controllers
 
                 _vpnRepo.Update(vpn);
 
-                return RedirectToAction(nameof(Index));
+                return Json(Ok());
             }
-            catch
+            catch(Exception ex)
             {
-                return RedirectToAction(nameof(Index));
+                return Json(BadRequest("Error Occured while Updating VPN Details " + ex.Message));
             }
         }
 

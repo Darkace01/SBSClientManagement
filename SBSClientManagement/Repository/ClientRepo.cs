@@ -32,6 +32,14 @@ namespace SBSClientManagement.Repository
             return _ctx.Clients.Where(c => c.Id == Id).FirstOrDefault();
         }
 
+        public bool IsClientExist(string clientName)
+        {
+            if (String.IsNullOrEmpty(clientName))
+                throw new ArgumentException("Client Is Null");
+            var client = _ctx.Clients.Where(c => c.Name.ToLower() == clientName).FirstOrDefault();
+            return client != null;
+        }
+
         public Client GetByIdWithRelationship(int Id)
         {
             if (Id <= 0)
