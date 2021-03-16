@@ -109,11 +109,11 @@ namespace SBSClientManagement.Controllers
                 var client = _mapper.Map<Client>(_clientModel);
 
                 _clientRepo.Update(client);
-                return RedirectToAction(nameof(Index));
+                return Json(Ok());
             }
-            catch
+            catch(Exception ex)
             {
-                return RedirectToAction(nameof(Index));
+                return Json(BadRequest("Error updating" + ex));
             }
         }
 

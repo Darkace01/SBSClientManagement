@@ -130,11 +130,11 @@ namespace SBSClientManagement.Controllers
 
                 _vpnRepo.Update(vpn);
 
-                return RedirectToAction(nameof(Index));
+                return Json(Ok());
             }
-            catch
+            catch(Exception ex)
             {
-                return RedirectToAction(nameof(Index));
+                return Json(BadRequest("Error Occured while Updating VPN Details " + ex.Message));
             }
         }
 
