@@ -67,16 +67,17 @@ function sendData() {
         data: valdata,
         success: function (result) {
             if (result.statusCode == 200) {
-                location.reload();
+                alertify.notify('Updated', 'success', 3, function () { location.reload(); });
+
             } else {
-                errorVal.innerHTML = "Error Saving " + result.value;
+                let ex = "Error Updating " + result.value;
+                alertify.notify(ex, 'error', 3, function () { });
                 return false;
             }
-            return false;
-
         },
         error: function (result) {
-            errorVal.innerHTML = "Error Saving " + result.value;
+            let ex = "Error Updating " + result.value;
+            alertify.notify(ex, 'error', 3, function () { });
             return false;
         }
     });
