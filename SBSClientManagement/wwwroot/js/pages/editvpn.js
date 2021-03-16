@@ -72,7 +72,6 @@ function sendData() {
             }
         },
         error: function (result) {
-            console.log(result);
             errorVal.innerHTML = "Error Saving " + result.value;
             return false;
         }

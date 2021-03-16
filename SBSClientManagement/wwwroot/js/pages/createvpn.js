@@ -58,7 +58,6 @@ function validateForm() {
 
 //Validate if the vpn name already exists
 function checkVpn(vpn) {
-    console.log(vpn);
 
     $.ajax({
         url: "/Vpn/VpnExist/?vpnName=" + vpn,
@@ -92,7 +91,6 @@ function sendData() {
             }
         },
         error: function (result) {
-            console.log(result);
             errorVal.innerHTML = "Error Saving " + result.value;
             return false;
         }

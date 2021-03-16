@@ -58,7 +58,6 @@ function validateForm() {
 
 //Validate if the server name already exists
 function checkServer(serverName) {
-    console.log(serverName);
     
     $.ajax({
         url: "/Server/ServerExist/?serverName=" + serverName,
@@ -92,7 +91,6 @@ function sendData() {
             }
         },
         error: function (result) {
-            console.log(result);
             errorVal.innerHTML = "Error Saving " + result.value;
             return false;
         }
