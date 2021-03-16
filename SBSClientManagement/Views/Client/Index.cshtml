@@ -38,7 +38,7 @@
                     {
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                            <td class="copy" data-clipboard-text="@item.Name" >@Html.DisplayFor(modelItem => item.Name)</td>
                             <td>
                                 <a href="#" onclick="EditClientDetails(@item.Id)">Edit</a>
                                 <a href="#" onclick="ViewClientDetails(@item.Id)">Details</a>
@@ -127,12 +127,8 @@
     </div>
 
 </div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
 <script type="text/javascript">
-
+    
     function EditClientDetails(clientId) {
 
         var url = "/Client/Edit?id=" + clientId;
@@ -185,19 +181,19 @@
     });
     function search() {
         let searchStringValue = $('#searchString').val();
-            $.ajax({
-                type: 'GET',
-                data: { searchString: searchStringValue },
-                url: 'Client/Search',
-                success: function (result) {
-                    if (result.length > 0) {
-                        var c;
-                        for (var i = 0, l = result.length; i < l; i++) {
-                            c += '<tr> <td> ' + result[i].id + '</td> <td> ' + result[i].name + '</td> <td> <a href="#" onclick="EditClientDetails(' + result[i].id + ')"s>Edit</a>  <a href="#" onclick="ViewClientDetails(' + result[i].id + ')">Details</a> <a href="#" onclick="DeleteClientDetails(' + result[i].id + ')"> Delete </a>'
-                        }
-                        $('#table').html(c);
+        $.ajax({
+            type: 'GET',
+            data: { searchString: searchStringValue },
+            url: 'Client/Search',
+            success: function (result) {
+                if (result.length > 0) {
+                    var c;
+                    for (var i = 0, l = result.length; i < l; i++) {
+                        c += '<tr> <td> ' + result[i].id + '</td> <td class="copy" data-clipboard-text="' + result[i].name + '"> ' + result[i].name + '</td> <td> <a href="#" onclick="EditClientDetails(' + result[i].id + ')"s>Edit</a>  <a href="#" onclick="ViewClientDetails(' + result[i].id + ')">Details</a> <a href="#" onclick="DeleteClientDetails(' + result[i].id + ')"> Delete </a>'
                     }
+                    $('#table').html(c);
                 }
-            });
+            }
+        });
     }
 </script>

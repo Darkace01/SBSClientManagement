@@ -46,16 +46,16 @@
                     @foreach (var item in Model)
                     {
                     <tr>
-                        <td>
+                        <td class="copy" data-clipboard-text="@item.Name">
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
-                        <td>
+                        <td class="copy" data-clipboard-text="@item.Username">
                             @Html.DisplayFor(modelItem => item.Username)
                         </td>
-                        <td>
+                        <td class="copy" data-clipboard-text="@item.Password">
                             @Html.DisplayFor(modelItem => item.Password)
                         </td>
-                        <td>
+                        <td class="copy" data-clipboard-text="@item.ClientName">
                             @Html.DisplayFor(modelItem => item.ClientName)
                         </td>
                         <td>
@@ -165,7 +165,7 @@
                 if (result.length > 0) {
                     var c;
                     for (var i = 0, l = result.length; i < l; i++) {
-                        c += '<tr> <td> ' + result[i].name + '</td> <td> ' + result[i].username + '</td> <td> ' + result[i].password + '<td> ' + result[i].clientName + '</td > <td> <a href="#" onclick="EditVpnDetails(' + result[i].id + ')"s>Edit</a>  <a href="#" onclick="ViewVpnDetails(' + result[i].id + ')">Details</a> <a href="#" onclick="DeleteVpnDetails(' + result[i].id + ')"> Delete </a></td></tr>'
+                        c += '<tr> <td class="copy" data-clipboard-text="' + result[i].name + '"> ' + result[i].name + '</td> <td class="copy" data-clipboard-text="' + result[i].username + '"> ' + result[i].username + '</td> <td class="copy" data-clipboard-text="' + result[i].password + '"> ' + result[i].password + '<td class="copy" data-clipboard-text="' + result[i].clientName + '"> ' + result[i].clientName + '</td > <td> <a href="#" onclick="EditVpnDetails(' + result[i].id + ')"s>Edit</a>  <a href="#" onclick="ViewVpnDetails(' + result[i].id + ')">Details</a> <a href="#" onclick="DeleteVpnDetails(' + result[i].id + ')"> Delete </a></td></tr>'
                     }
                     $('#table').html(c);
                 }

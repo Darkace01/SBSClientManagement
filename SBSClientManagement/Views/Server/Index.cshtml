@@ -53,21 +53,21 @@
                                     : item.Categories.ToString() == "Test" ? "badge-warning"
                                     : item.Categories.ToString() == "Devlopment" ? "badge-danger" : "badge-info";
                         <tr>
-                            <td>
+                            <td class="copy" data-clipboard-text="@item.Name">
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
-                            <td>
+                            <td class="copy" data-clipboard-text="@item.Username">
                                 @Html.DisplayFor(modelItem => item.Username)
                             </td>
-                            <td>
+                            <td class="copy" data-clipboard-text="@item.Password">
                                 @Html.DisplayFor(modelItem => item.Password)
                             </td>
                             <td>
-                                <span class="badge @cat">
+                                <span class="copy badge @cat" data-clipboard-text="@item.Categories">
                                     @Html.DisplayFor(modelItem => item.Categories)
                                 </span>
                             </td>
-                            <td>
+                            <td class="copy" data-clipboard-text="@item.ClientId">
                                 @Html.DisplayFor(modelItem => item.ClientName)
                             </td>
                             <td>
@@ -222,13 +222,15 @@
                         let cat = result[i].categories == '1' ? "Live"
                             : result[i].categories == '0' ? "Test"
                                 : result[i].categories == '2' ? "Development" : "Live";
+
                         let badge = cat == "Live" ? "badge-success"
                             : cat == "Test" ? "badge-warning"
                                 : cat == "Development" ? "badge-danger" : "badge-info";
-                        c += '<tr>  <td> ' + result[i].name + '</td>' + '<td> ' + result[i].username + '</td>' + '<td> ' + result[i].password + '</td>' + '<td> <span class="badge ' + badge + '">' + cat + '</span> </td>' + '<td> ' + result[i].clientName + '</td>' + ' <td> <a href="#" onclick="EditServerDetails(' + result[i].id + ')"s>Edit</a>  <a href="#" onclick="ViewServerDetails(' + result[i].id + ')">Details</a> <a href="#" onclick="DeleteServerDetails(' + result[i].id + ')"> Delete </a> </td></tr>'
+
+                        c += '<tr>  <td class="copy" data-clipboard-text="' + result[i].name + '"> ' + result[i].name + '</td>' + '<td class="copy" data-clipboard-text="' + result[i].username + '"> ' + result[i].username + '</td>' + '<td class="copy" data-clipboard-text="' + result[i].password + '"> ' + result[i].password + '</td>' + '<td> <span  class="copy badge ' + badge + '" data-clipboard-text="' + cat + '">' + cat + '</span> </td>' + '<td class="copy" data-clipboard-text="' + result[i].clientName + '"> ' + result[i].clientName + '</td>' + ' <td> <a href="#" onclick="EditServerDetails(' + result[i].id + ')"s>Edit</a>  <a href="#" onclick="ViewServerDetails(' + result[i].id + ')">Details</a> <a href="#" onclick="DeleteServerDetails(' + result[i].id + ')"> Delete </a> </td></tr>'
                     }
                     $('#table').html(c);
-                } 
+                }
             }
         });
     }
