@@ -42,7 +42,7 @@
                         </th>
                         <th></th>
                     </tr>
-                <tbody>
+                <tbody id="table">
                     @foreach (var item in Model)
                     {
                     <tr>
@@ -149,22 +149,29 @@
 <script>
     $(document).ready(function () {
         $('#searchBtn').on('click', function () {
-            let searchStringValue = $('#searchString').val();
-            $.ajax({
-                type: 'GET',
-                data: { searchString: searchStringValue },
-                url: '@Url.Action("Search", "Vpn")',
-                success: function (result) {
-                    console.log(result);
+            search();
+        });
+        $('#searchString').on('keyup', function () {
+            search();
+        });
+    });
+    function search() {
+        let searchStringValue = $('#searchString').val();
+        $.ajax({
+            type: 'GET',
+            data: { searchString: searchStringValue },
+            url: 'Vpn/Search',
+            success: function (result) {
+                if (result.length > 0) {
                     var c;
                     for (var i = 0, l = result.length; i < l; i++) {
-                        c = '<tr> <td> ' + result[i].id + '</td> <td> ' + result[i].name + '</td> <td> <a href="#" onclick="EditClientDetails(' + result[i].id + ')"s>Edit</a>  <a href="#" onclick="ViewClientDetails(' + result[i].id + ')">Details</a> <a href="#" onclick="DeleteClientDetails(' + result[i].id + ')"> Delete </a>'
+                        c += '<tr> <td> ' + result[i].name + '</td> <td> ' + result[i].username + '</td> <td> ' + result[i].password + '<td> ' + result[i].clientName + '</td > <td> <a href="#" onclick="EditVpnDetails(' + result[i].id + ')"s>Edit</a>  <a href="#" onclick="ViewVpnDetails(' + result[i].id + ')">Details</a> <a href="#" onclick="DeleteVpnDetails(' + result[i].id + ')"> Delete </a></td></tr>'
                     }
                     $('#table').html(c);
                 }
-            });
+            }
         });
-    });
+    }
     function EditVpnDetails(vpnId) {
 
         var url = "/Vpn/Edit?id=" + vpnId;

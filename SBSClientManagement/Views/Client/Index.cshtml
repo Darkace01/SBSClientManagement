@@ -190,11 +190,13 @@
                 data: { searchString: searchStringValue },
                 url: 'Client/Search',
                 success: function (result) {
-                    var c;
-                    for (var i = 0, l = result.length; i < l; i++) {
-                        c += '<tr> <td> ' + result[i].id + '</td> <td> ' + result[i].name + '</td> <td> <a href="#" onclick="EditClientDetails(' + result[i].id + ')"s>Edit</a>  <a href="#" onclick="ViewClientDetails(' + result[i].id + ')">Details</a> <a href="#" onclick="DeleteClientDetails(' + result[i].id + ')"> Delete </a>'
+                    if (result.length > 0) {
+                        var c;
+                        for (var i = 0, l = result.length; i < l; i++) {
+                            c += '<tr> <td> ' + result[i].id + '</td> <td> ' + result[i].name + '</td> <td> <a href="#" onclick="EditClientDetails(' + result[i].id + ')"s>Edit</a>  <a href="#" onclick="ViewClientDetails(' + result[i].id + ')">Details</a> <a href="#" onclick="DeleteClientDetails(' + result[i].id + ')"> Delete </a>'
+                        }
+                        $('#table').html(c);
                     }
-                    $('#table').html(c);
                 }
             });
     }

@@ -216,17 +216,19 @@
             data: { searchString: searchStringValue },
             url: 'Server/Search',
             success: function (result) {
-                var c;
-                for (var i = 0, l = result.length; i < l; i++) {
-                    let cat = result[i].categories == '1' ? "Live"
-                        : result[i].categories == '0' ? "Test"
-                            : result[i].categories == '2' ? "Development" : "Live";
-                    let badge = cat == "Live" ? "badge-success"
-                        : cat == "Test" ? "badge-warning"
-                            : cat == "Development" ? "badge-danger" : "badge-info";
-                    c += '<tr>  <td> ' + result[i].name + '</td>' + '<td> ' + result[i].username + '</td>' + '<td> ' + result[i].password + '</td>' + '<td> <span class="badge '+badge+'">' + cat + '</span> </td>' + '<td> ' + result[i].clientName + '</td>' +' <td> <a href="#" onclick="EditServerDetails(' + result[i].id + ')"s>Edit</a>  <a href="#" onclick="ViewServerDetails(' + result[i].id + ')">Details</a> <a href="#" onclick="DeleteServerDetails(' + result[i].id + ')"> Delete </a> </td></tr>'
-                }
-                $('#table').html(c);
+                if (result.length > 0) {
+                    var c;
+                    for (var i = 0, l = result.length; i < l; i++) {
+                        let cat = result[i].categories == '1' ? "Live"
+                            : result[i].categories == '0' ? "Test"
+                                : result[i].categories == '2' ? "Development" : "Live";
+                        let badge = cat == "Live" ? "badge-success"
+                            : cat == "Test" ? "badge-warning"
+                                : cat == "Development" ? "badge-danger" : "badge-info";
+                        c += '<tr>  <td> ' + result[i].name + '</td>' + '<td> ' + result[i].username + '</td>' + '<td> ' + result[i].password + '</td>' + '<td> <span class="badge ' + badge + '">' + cat + '</span> </td>' + '<td> ' + result[i].clientName + '</td>' + ' <td> <a href="#" onclick="EditServerDetails(' + result[i].id + ')"s>Edit</a>  <a href="#" onclick="ViewServerDetails(' + result[i].id + ')">Details</a> <a href="#" onclick="DeleteServerDetails(' + result[i].id + ')"> Delete </a> </td></tr>'
+                    }
+                    $('#table').html(c);
+                } 
             }
         });
     }
