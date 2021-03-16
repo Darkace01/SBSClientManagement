@@ -27,7 +27,7 @@ namespace SBSClientManagement.Controllers
         }
 
         // GET: VpnController
-        public IActionResult Index(string searchString)
+        public IActionResult Index()
         {
             var _vpns = _vpnRepo.GetVpns();
             var _clients = _clientRepo.GetClients();
@@ -37,7 +37,7 @@ namespace SBSClientManagement.Controllers
             {
                 item.ClientName = _clients.Where(c => c.Id == item.ClientId).FirstOrDefault().Name;
             }
-            
+
             return View(vpns);
         }
 
@@ -87,8 +87,10 @@ namespace SBSClientManagement.Controllers
         public IActionResult Create()
         {
             var client = _mapper.Map<IEnumerable<CreateVpnClientViewModel>>(_clientRepo.GetClients());
-            var server = new CreateVpnViewModel();
-            server.Clients = client;
+            var server = new CreateVpnViewModel
+            {
+                Clients = client
+            };
             return PartialView("_Create", server);
         }
 
@@ -106,7 +108,7 @@ namespace SBSClientManagement.Controllers
                 _vpnRepo.Create(vpn);
                 return Json(Ok());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Json(BadRequest("Error Saving Vpn" + ex));
             }
@@ -138,7 +140,7 @@ namespace SBSClientManagement.Controllers
             try
             {
                 if (!ModelState.IsValid)
-                    return PartialView("_Edit",_vpn);
+                    return PartialView("_Edit", _vpn);
 
                 var vpn = _mapper.Map<Vpn>(_vpn);
 
@@ -146,7 +148,7 @@ namespace SBSClientManagement.Controllers
 
                 return Json(Ok());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Json(BadRequest("Error Occured while Updating VPN Details " + ex.Message));
             }

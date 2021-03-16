@@ -15,7 +15,7 @@ namespace SBSClientManagement.Controllers
 {
     [Authorize]
     public class SqlServerController : Controller
-    { 
+    {
         private readonly ISqlServerRepo _sqlServerRepo;
         private readonly IClientRepo _clientRepo;
         private readonly IServersRepo _serverRepo;
@@ -41,7 +41,7 @@ namespace SBSClientManagement.Controllers
                 item.ClientName = _clients.Where(c => c.Id == item.ClientId).FirstOrDefault().Name;
                 item.ServerName = _servers.Where(c => c.Id == item.ServerId).FirstOrDefault().Name;
             }
-            
+
             return View(sqlServers);
         }
 
@@ -68,7 +68,7 @@ namespace SBSClientManagement.Controllers
                 item.ServerName = _servers.Where(c => c.Id == item.ServerId).FirstOrDefault().Name;
             }
             if (!String.IsNullOrEmpty(searchString))
-                sqlServers = sqlServers.Where(s => 
+                sqlServers = sqlServers.Where(s =>
                                     s.ServerName.ToLower().Contains(searchString.ToLower())
                                     || s.InstanceName.ToLower().Contains(searchString.ToLower())
                                     || s.Username.ToLower().Contains(searchString.ToLower())
@@ -98,9 +98,11 @@ namespace SBSClientManagement.Controllers
         {
             var client = _mapper.Map<IEnumerable<CreateSqlServerClientViewModel>>(_clientRepo.GetClients());
             var server = _mapper.Map<IEnumerable<CreateSqlServerServerViewModel>>(_serverRepo.GetServers());
-            var sqlServer = new CreateSqlServerViewModel();
-            sqlServer.Clients = client;
-            sqlServer.Servers = server;
+            var sqlServer = new CreateSqlServerViewModel
+            {
+                Clients = client,
+                Servers = server
+            };
 
             return PartialView("_Create", sqlServer);
         }
@@ -119,7 +121,7 @@ namespace SBSClientManagement.Controllers
                 _sqlServerRepo.Create(sqlServer);
                 return Json(Ok());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Json(BadRequest("Error Saving SQL Server" + ex));
             }
@@ -141,7 +143,7 @@ namespace SBSClientManagement.Controllers
             sqlServer.SelectedServer = _mapper.Map<CreateSqlServerServerViewModel>(selectedServer);
 
             sqlServer.Clients = _mapper.Map<IEnumerable<CreateSqlServerClientViewModel>>(_clientRepo.GetClients().Where(c => c.Id != selectedClient.Id));
-            sqlServer.Servers = _mapper.Map< IEnumerable<CreateSqlServerServerViewModel>>(_serverRepo.GetServers().Where(s => s.Id != selectedServer.Id));
+            sqlServer.Servers = _mapper.Map<IEnumerable<CreateSqlServerServerViewModel>>(_serverRepo.GetServers().Where(s => s.Id != selectedServer.Id));
 
             return PartialView("_Edit", sqlServer);
         }
@@ -162,7 +164,7 @@ namespace SBSClientManagement.Controllers
 
                 return Json(Ok());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Json(BadRequest("Error Updating " + ex));
             }

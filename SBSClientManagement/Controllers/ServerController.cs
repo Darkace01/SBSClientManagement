@@ -66,7 +66,7 @@ namespace SBSClientManagement.Controllers
             if (_server == null)
                 return NotFound();
             var _client = _clientRepo.GetById(_server.ClientId);
-            
+
             ViewServerViewModel server = _mapper.Map<ViewServerViewModel>(_server);
 
             server.ClientName = _client.Name;
@@ -85,9 +85,11 @@ namespace SBSClientManagement.Controllers
         public IActionResult Create()
         {
             var client = _mapper.Map<IEnumerable<CreateClientServerClientViewModel>>(_clientRepo.GetClients());
-            var server = new CreateServerViewModel();
-            server.Client = client;
-            return PartialView("_Create",server);
+            var server = new CreateServerViewModel
+            {
+                Client = client
+            };
+            return PartialView("_Create", server);
         }
 
         [HttpPost]
@@ -104,7 +106,7 @@ namespace SBSClientManagement.Controllers
 
                 return Json(Ok());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Json(BadRequest("Error Saving Server" + ex));
             }
@@ -143,7 +145,7 @@ namespace SBSClientManagement.Controllers
 
                 return Json(Ok());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
                 return Json(BadRequest("Error Updating Server " + ex));
