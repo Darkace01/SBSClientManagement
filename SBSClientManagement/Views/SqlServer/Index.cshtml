@@ -5,25 +5,19 @@
     Layout = "/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<!-- TABLE: LATEST ORDERS -->
 <div class="card">
     <div class="card-header border-transparent">
         <h3 class="card-title">SqlServer List</h3>
 
         <a href="#" onclick="CreateSqlServerDetails()" class="btn btn-md btn-info float-right ml-3">Create New</a>
         <div class="card-tools pt-1">
-            <form method="get">
-                <div class="input-group input-group-md" style="width: 15rem;">
-                    <input type="text" name="searchString" class="form-control float-right" placeholder="Search">
+            <div class="input-group input-group-md" style="width: 15rem;">
+                <input type="text" name="searchString" id="searchString" class="form-control float-right" placeholder="Search">
 
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-                    </div>
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-default" id="searchBtn"><i class="fas fa-search"></i></button>
                 </div>
-            </form>
-            @*<button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-            </button>*@
+            </div>
         </div>
     </div>
     <!-- /.card-header -->
@@ -49,7 +43,7 @@
                         </th>
                         <th></th>
                     </tr>
-                <tbody>
+                <tbody id="table">
                     @foreach (var item in Model)
                     {
                         <tr>
@@ -157,12 +151,43 @@
 
 </div>
 <script>
+    $(document).ready(function () {
+        $('#searchBtn').on('click', function () {
+            search();
+        });
+        $('#searchString').keypress(_.debounce(function () {
+            search()
+        }
+            , 500 ) );
+        //$('#searchString').on('keyup', function () {
+        //            search();
+        //});
+    });
+    function search() {
+        let searchStringValue = $('#searchString').val();
+        $.ajax({
+                    type: 'GET',
+            data: {searchString: searchStringValue },
+            url: 'SqlServer/Search',
+            success: function (result) {
+                if (result.length > 0) {
+                    var c;
+                    for (var i = 0, l = result.length; i < l; {
+                    c += '<tr> <td> ' + result[i].username + '</td> <td>' + result[i].password + '</td> <td> ' + result[i].instanceName + '</td> <td>' + result[i].serverName + '</td> <td>' + result[i].clientName + '</td><td><a href="#" onclick="EditSqlServerDetails(' + result[i].id + ')"s>Edit</a>  <a href="#" onclick="ViewSqlServerDetails(' + result[i].id + ')">Details</a> <a href="#" onclick="DeleteSqlServerDetails(' + result[i].id + ')"> Delete </a></td></tr>';
+                    }
+                    $('#table').html(c);
+                } else {
+                    document.alert("None Found");
+                }
+            }
+        });
+    }
     function EditSqlServerDetails(vpnId) {
 
         var url = "/SqlServer/Edit?id=" + vpnId;
 
         $("#editModalBody").load(url, function () {
-            $("#editModal").modal("show");
+                    $("#editModal").modal("show");
 
         })
 
@@ -172,7 +197,7 @@
         var url = "/SqlServer/Create";
 
         $("#createModalBody").load(url, function () {
-            $("#createModal").modal("show");
+                    $("#createModal").modal("show");
 
         })
 
@@ -183,7 +208,7 @@
         var url = "/SqlServer/Details?id=" + vpnId;
 
         $("#viewModalBody").load(url, function () {
-            $("#viewModal").modal("show");
+                    $("#viewModal").modal("show");
 
         })
 
@@ -194,7 +219,7 @@
         var url = "/SqlServer/DeleteConfirmation?id=" + vpnId;
 
         $("#deleteModalBody").load(url, function () {
-            $("#deleteModal").modal("show");
+                    $("#deleteModal").modal("show");
 
         })
 

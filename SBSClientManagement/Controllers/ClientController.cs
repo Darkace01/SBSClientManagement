@@ -35,6 +35,17 @@ namespace SBSClientManagement.Controllers
             return View(clients);
         }
 
+        [HttpGet]
+        public IActionResult Search(string searchString)
+        {
+            var _clients = _clientRepo.GetClients();
+
+            List<ViewClientViewModel> clients = _mapper.Map<IEnumerable<ViewClientViewModel>>(_clients).ToList();
+            if (!String.IsNullOrEmpty(searchString))
+                clients = clients.Where(c => c.Name.ToLower().Contains(searchString.ToLower())).ToList();
+            return Json(clients);
+        }
+
         // GET: ClientController/Details/5
         public IActionResult  Details(int id)
         {

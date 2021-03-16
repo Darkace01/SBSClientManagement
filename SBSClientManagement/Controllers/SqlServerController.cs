@@ -30,11 +30,37 @@ namespace SBSClientManagement.Controllers
         }
 
         // GET: SqlServerController
-        public ActionResult Index(string searchString)
+        public IActionResult Index()
         {
             var _sqlServers = _sqlServerRepo.GetSQLServers();
             var _clients = _clientRepo.GetClients();
             var _servers = _serverRepo.GetServers();
+            List<ViewSqlServerViewModel> sqlServers = _mapper.Map<IEnumerable<ViewSqlServerViewModel>>(_sqlServers).ToList();
+            foreach (var item in sqlServers)
+            {
+                item.ClientName = _clients.Where(c => c.Id == item.ClientId).FirstOrDefault().Name;
+                item.ServerName = _servers.Where(c => c.Id == item.ServerId).FirstOrDefault().Name;
+            }
+            
+            return View(sqlServers);
+        }
+
+        public IActionResult GetClientByServerId(int clientId)
+        {
+            if (clientId < 0)
+                return NotFound();
+            var _servers = _serverRepo.GetClientServers(clientId);
+            List<SqlServerServerViewModel> servers = _mapper.Map<IEnumerable<SqlServerServerViewModel>>(_servers).ToList();
+            return Json(servers);
+        }
+
+        [HttpGet]
+        public IActionResult Search(string searchString)
+        {
+            var _sqlServers = _sqlServerRepo.GetSQLServers();
+            var _clients = _clientRepo.GetClients();
+            var _servers = _serverRepo.GetServers();
+
             List<ViewSqlServerViewModel> sqlServers = _mapper.Map<IEnumerable<ViewSqlServerViewModel>>(_sqlServers).ToList();
             foreach (var item in sqlServers)
             {
@@ -47,20 +73,11 @@ namespace SBSClientManagement.Controllers
                                     || s.InstanceName.ToLower().Contains(searchString.ToLower())
                                     || s.Username.ToLower().Contains(searchString.ToLower())
                                     || s.ClientName.ToLower().Contains(searchString.ToLower())).ToList();
-            return View(sqlServers);
-        }
-
-        public ActionResult GetClientByServerId(int clientId)
-        {
-            if (clientId < 0)
-                return NotFound();
-            var _servers = _serverRepo.GetClientServers(clientId);
-            List<SqlServerServerViewModel> servers = _mapper.Map<IEnumerable<SqlServerServerViewModel>>(_servers).ToList();
-            return Json(servers);
+            return Json(sqlServers);
         }
 
         // GET: SqlServerController/Details/5
-        public ActionResult Details(int id)
+        public IActionResult Details(int id)
         {
             if (id < 0)
                 return NotFound();
@@ -77,7 +94,7 @@ namespace SBSClientManagement.Controllers
         }
 
         // GET: SqlServerController/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
             var client = _mapper.Map<IEnumerable<CreateSqlServerClientViewModel>>(_clientRepo.GetClients());
             var server = _mapper.Map<IEnumerable<CreateSqlServerServerViewModel>>(_serverRepo.GetServers());
@@ -91,7 +108,7 @@ namespace SBSClientManagement.Controllers
         // POST: SqlServerController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CreateSqlServerViewModel _sqlServer)
+        public IActionResult Create(CreateSqlServerViewModel _sqlServer)
         {
             try
             {
@@ -109,7 +126,7 @@ namespace SBSClientManagement.Controllers
         }
 
         // GET: SqlServerController/Edit/5
-        public ActionResult Edit(int id)
+        public IActionResult Edit(int id)
         {
             if (id < 0)
                 return NotFound();
@@ -132,7 +149,7 @@ namespace SBSClientManagement.Controllers
         // POST: SqlServerController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(EditSqlServerViewModel _sqlServer)
+        public IActionResult Edit(EditSqlServerViewModel _sqlServer)
         {
             try
             {
@@ -152,7 +169,7 @@ namespace SBSClientManagement.Controllers
         }
 
         // GET: SqlServerController/Delete/5
-        public ActionResult DeleteConfirmation(int id)
+        public IActionResult DeleteConfirmation(int id)
         {
             if (id < 0)
                 return NotFound();
@@ -172,7 +189,7 @@ namespace SBSClientManagement.Controllers
         // POST: SqlServerController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(DeleteSqlServerViewModel _sqlServer)
+        public IActionResult Delete(DeleteSqlServerViewModel _sqlServer)
         {
             try
             {

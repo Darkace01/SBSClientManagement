@@ -25,7 +25,20 @@ namespace SBSClientManagement.Controllers
             _clientRepo = clientRepo;
         }
 
-        public IActionResult Index(string searchString)
+        public IActionResult Index()
+        {
+            var _servers = _serverRepo.GetServers();
+            var _clients = _clientRepo.GetClients();
+            List<ViewServerViewModel> servers = _mapper.Map<IEnumerable<ViewServerViewModel>>(_servers).ToList();
+            foreach (var item in servers)
+            {
+                item.ClientName = _clients.Where(c => c.Id == item.ClientId).FirstOrDefault().Name;
+            }
+
+            return View(servers);
+        }
+
+        public IActionResult Search(string searchString)
         {
             var _servers = _serverRepo.GetServers();
             var _clients = _clientRepo.GetClients();
@@ -36,16 +49,16 @@ namespace SBSClientManagement.Controllers
             }
             if (!String.IsNullOrEmpty(searchString))
                 servers = servers.Where(
-                            s => s.Name.ToLower().Contains(searchString.ToLower()) 
+                            s => s.Name.ToLower().Contains(searchString.ToLower())
                             || s.Username.ToLower().Contains(searchString.ToLower())
                             || s.ClientName.ToLower().Contains(searchString.ToLower())
                             || s.Categories.ToString().ToLower().Contains(searchString.ToLower()))
                             .ToList();
 
-            return View(servers);
+            return Json(servers);
         }
 
-        public ActionResult Details(int id)
+        public IActionResult Details(int id)
         {
             if (id < 0)
                 return NotFound();
@@ -69,7 +82,7 @@ namespace SBSClientManagement.Controllers
             return Json(exist);
         }
 
-        public ActionResult Create()
+        public IActionResult Create()
         {
             var client = _mapper.Map<IEnumerable<CreateClientServerClientViewModel>>(_clientRepo.GetClients());
             var server = new CreateServerViewModel();
@@ -79,7 +92,7 @@ namespace SBSClientManagement.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CreateServerViewModel _serverModel)
+        public IActionResult Create(CreateServerViewModel _serverModel)
         {
             try
             {
@@ -97,7 +110,7 @@ namespace SBSClientManagement.Controllers
             }
         }
 
-        public ActionResult Edit(int id)
+        public IActionResult Edit(int id)
         {
             if (id < 0)
                 return NotFound();
@@ -137,7 +150,7 @@ namespace SBSClientManagement.Controllers
             }
         }
 
-        public ActionResult DeleteConfirmation(int id)
+        public IActionResult DeleteConfirmation(int id)
         {
             if (id < 0)
                 return NotFound();
@@ -153,7 +166,7 @@ namespace SBSClientManagement.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(DeleteServerViewModel _server)
+        public IActionResult Delete(DeleteServerViewModel _server)
         {
             try
             {

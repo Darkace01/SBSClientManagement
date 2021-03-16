@@ -12,18 +12,14 @@
 
             <a href="#" onclick="CreateServerDetails()" class="btn btn-md btn-info float-right ml-3">Create New</a>
             <div class="card-tools pt-1">
-                <form method="get">
-                    <div class="input-group input-group-md" style="width: 15rem;">
-                        <input type="text" name="searchString" class="form-control float-right" placeholder="Search">
+                <div class="input-group input-group-md" style="width: 15rem;">
+                    <input type="text" id="searchString" class="form-control float-right" placeholder="Search">
 
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-                        </div>
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-default" id="searchBtn"><i class="fas fa-search"></i></button>
                     </div>
-                </form>
-                @*<button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                </button>*@
+                </div>
+
             </div>
     </div>
     <!-- /.card-header -->
@@ -50,7 +46,7 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="table">
                     @foreach (var item in Model)
                     {
                         string cat = item.Categories.ToString() == "Live" ? "badge-success"
@@ -203,6 +199,35 @@
             $("#deleteModal").modal("show");
 
         })
+    }
 
+    $(document).ready(function () {
+        $('#searchBtn').on('click', function () {
+            search();
+        });
+        $('#searchString').on('keyup', function () {
+            search();
+        });
+    });
+    function search() {
+        let searchStringValue = $('#searchString').val();
+        $.ajax({
+            type: 'GET',
+            data: { searchString: searchStringValue },
+            url: 'Server/Search',
+            success: function (result) {
+                var c;
+                for (var i = 0, l = result.length; i < l; i++) {
+                    let cat = result[i].categories == '1' ? "Live"
+                        : result[i].categories == '0' ? "Test"
+                            : result[i].categories == '2' ? "Development" : "Live";
+                    let badge = cat == "Live" ? "badge-success"
+                        : cat == "Test" ? "badge-warning"
+                            : cat == "Development" ? "badge-danger" : "badge-info";
+                    c += '<tr>  <td> ' + result[i].name + '</td>' + '<td> ' + result[i].username + '</td>' + '<td> ' + result[i].password + '</td>' + '<td> <span class="badge '+badge+'">' + cat + '</span> </td>' + '<td> ' + result[i].clientName + '</td>' +' <td> <a href="#" onclick="EditServerDetails(' + result[i].id + ')"s>Edit</a>  <a href="#" onclick="ViewServerDetails(' + result[i].id + ')">Details</a> <a href="#" onclick="DeleteServerDetails(' + result[i].id + ')"> Delete </a> </td></tr>'
+                }
+                $('#table').html(c);
+            }
+        });
     }
 </script>

@@ -27,7 +27,21 @@ namespace SBSClientManagement.Controllers
         }
 
         // GET: VpnController
-        public ActionResult Index(string searchString)
+        public IActionResult Index(string searchString)
+        {
+            var _vpns = _vpnRepo.GetVpns();
+            var _clients = _clientRepo.GetClients();
+
+            List<ViewVpnViewModel> vpns = _mapper.Map<IEnumerable<ViewVpnViewModel>>(_vpns).ToList();
+            foreach (var item in vpns)
+            {
+                item.ClientName = _clients.Where(c => c.Id == item.ClientId).FirstOrDefault().Name;
+            }
+            
+            return View(vpns);
+        }
+
+        public IActionResult Search(string searchString)
         {
             var _vpns = _vpnRepo.GetVpns();
             var _clients = _clientRepo.GetClients();
@@ -38,11 +52,11 @@ namespace SBSClientManagement.Controllers
                 item.ClientName = _clients.Where(c => c.Id == item.ClientId).FirstOrDefault().Name;
             }
             if (!String.IsNullOrEmpty(searchString))
-                vpns = vpns.Where(c => 
+                vpns = vpns.Where(c =>
                                     c.Name.ToLower().Contains(searchString.ToLower())
                                     || c.ClientName.ToLower().Contains(searchString.ToLower())
                                     || c.Username.ToLower().Contains(searchString.ToLower())).ToList();
-            return View(vpns);
+            return Json(vpns);
         }
 
         public IActionResult VpnExist(string vpnName)
@@ -54,7 +68,7 @@ namespace SBSClientManagement.Controllers
         }
 
         // GET: VpnController/Details/5
-        public ActionResult Details(int id)
+        public IActionResult Details(int id)
         {
             if (id < 0)
                 return NotFound();
@@ -70,7 +84,7 @@ namespace SBSClientManagement.Controllers
         }
 
         // GET: VpnController/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
             var client = _mapper.Map<IEnumerable<CreateVpnClientViewModel>>(_clientRepo.GetClients());
             var server = new CreateVpnViewModel();
@@ -81,7 +95,7 @@ namespace SBSClientManagement.Controllers
         // POST: VpnController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CreateVpnViewModel _vpn)
+        public IActionResult Create(CreateVpnViewModel _vpn)
         {
             try
             {
@@ -99,7 +113,7 @@ namespace SBSClientManagement.Controllers
         }
 
         // GET: VpnController/Edit/5
-        public ActionResult Edit(int id)
+        public IActionResult Edit(int id)
         {
             if (id < 0)
                 return NotFound();
@@ -119,7 +133,7 @@ namespace SBSClientManagement.Controllers
         // POST: VpnController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(EditVpnViewModel _vpn)
+        public IActionResult Edit(EditVpnViewModel _vpn)
         {
             try
             {
@@ -139,7 +153,7 @@ namespace SBSClientManagement.Controllers
         }
 
         // GET: VpnController/Delete/5
-        public ActionResult DeleteConfirmation(int id)
+        public IActionResult DeleteConfirmation(int id)
         {
             if (id < 0)
                 return NotFound();
@@ -155,7 +169,7 @@ namespace SBSClientManagement.Controllers
         // POST: VpnController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(DeleteVpnViewModel _vpn)
+        public IActionResult Delete(DeleteVpnViewModel _vpn)
         {
             try
             {
