@@ -51,7 +51,7 @@
                     {
                         string cat = item.Categories.ToString() == "Live" ? "badge-success"
                                     : item.Categories.ToString() == "Test" ? "badge-warning"
-                                    : item.Categories.ToString() == "Devlopment" ? "badge-danger" : "badge-info";
+                                    : item.Categories.ToString() == "DR" ? "badge-danger" : "badge-info";
                         <tr>
                             <td class="copy" data-clipboard-text="@item.Name">
                                 @Html.DisplayFor(modelItem => item.Name)
@@ -221,11 +221,11 @@
                     for (var i = 0, l = result.length; i < l; i++) {
                         let cat = result[i].categories == '1' ? "Live"
                             : result[i].categories == '0' ? "Test"
-                                : result[i].categories == '2' ? "Development" : "Live";
+                                : result[i].categories == '2' ? "DR" : "Live";
 
                         let badge = cat == "Live" ? "badge-success"
                             : cat == "Test" ? "badge-warning"
-                                : cat == "Development" ? "badge-danger" : "badge-info";
+                                : cat == "DR" ? "badge-danger" : "badge-info";
 
                         c += '<tr>  <td class="copy" data-clipboard-text="' + result[i].name + '"> ' + result[i].name + '</td>' + '<td class="copy" data-clipboard-text="' + result[i].username + '"> ' + result[i].username + '</td>' + '<td class="copy" data-clipboard-text="' + result[i].password + '"> ' + result[i].password + '</td>' + '<td> <span  class="copy badge ' + badge + '" data-clipboard-text="' + cat + '">' + cat + '</span> </td>' + '<td class="copy" data-clipboard-text="' + result[i].clientName + '"> ' + result[i].clientName + '</td>' + ' <td> <a href="#" onclick="EditServerDetails(' + result[i].id + ')"s>Edit</a>  <a href="#" onclick="ViewServerDetails(' + result[i].id + ')">Details</a> <a href="#" onclick="DeleteServerDetails(' + result[i].id + ')"> Delete </a> </td></tr>'
                     }

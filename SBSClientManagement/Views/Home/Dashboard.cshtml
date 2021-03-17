@@ -85,7 +85,7 @@
                             {
                                 string cat = item.Categories.ToString() == "Live" ? "badge-success"
                                             : item.Categories.ToString() == "Test" ? "badge-warning"
-                                            : item.Categories.ToString() == "Devlopment" ? "badge-danger" : "badge-info";
+                                            : item.Categories.ToString() == "DR" ? "badge-danger" : "badge-info";
                                 <tr>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Name)

@@ -33,7 +33,7 @@ namespace SBSClientManagement.Models.ViewModel
         {
             Test,
             Live,
-            Devlopment
+            DR
         }
     }
     public class ViewDashboardVpnViewModel
