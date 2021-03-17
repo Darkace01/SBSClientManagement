@@ -13,6 +13,7 @@
             </div>
 
             <div class="form-group">
+                <input type="button" value="Create" onclick="return validateForm()" class="btn btn-primary form-control" />
             </div>
         </form>
     </div>
@@ -30,19 +31,6 @@
             return false;
         }
     }
-    let button = document.getElementById("btnSubmit");
-    $(button).click(function (e) {
-        let name = document.getElementById("name").value;
-        error.value = "";
-        if (name.length > 0) {
-            
-            checkClient(name);
-        } else {
-            error.innerHTML = "Input Client Name";
-            return false;
-        }
-
-    });
     function checkClient(clientName) {
         $.ajax({
             url: "/Client/ClientExist/?clientName=" + clientName,
@@ -70,12 +58,12 @@
                 if (result.statusCode == 200) {
                     location.reload();
                 } else {
-                    error.innerHTML = "Error Saving" + result.value;
+                    alertify.notify('Error Saving Client', 'error', 5, function () { });
                     return false;
                 }
             },
             error: function (result) {
-                error.innerHTML = "Error Saving" + result.value;
+                alertify.notify('Error Saving Client', 'error', 5, function () { });
                 return false;
             }
         });

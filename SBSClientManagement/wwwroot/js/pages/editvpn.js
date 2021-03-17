@@ -58,7 +58,7 @@ function validateForm() {
 function sendData() {
     var valdata = $("#newVpnForm").serialize();
     $.ajax({
-        url: "/Vpn/Create",
+        url: "/Vpn/Edit",
         type: "POST",
         dataType: 'json',
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
