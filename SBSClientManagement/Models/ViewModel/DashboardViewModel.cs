@@ -10,11 +10,9 @@ namespace SBSClientManagement.Models.ViewModel
         public IEnumerable<ViewDashboardClientViewModel> Clients { get; set; }
         public IEnumerable<ViewDashboardServerViewModel> Servers { get; set; }
         public IEnumerable<ViewDashboardVpnViewModel> Vpns { get; set; }
-        public IEnumerable<ViewDashboardSqlServerViewModel> SqlServers { get; set; }
         public int TotalClients { get; set; }
         public int TotalServers { get; set; }
         public int TotalVpns { get; set; }
-        public int TotalSqlServer { get; set; }
 
     }
 
@@ -46,11 +44,4 @@ namespace SBSClientManagement.Models.ViewModel
         public string ClientName { get; set; }
     }
 
-    public class ViewDashboardSqlServerViewModel
-    {
-        public int Id { get; set; }
-        public string InstanceName { get; set; }
-        public int ClientId { get; set; }
-        public string ClientName { get; set; }
-    }
 }
