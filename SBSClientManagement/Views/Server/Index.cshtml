@@ -8,11 +8,28 @@
 
 <div class="card">
     <div class="card-header border-transparent">
-        <h3 class="card-title">Server List</h3>
+        <div class="row">
+            <div class="col-md-3">
+                <h3 class="card-title">Server List</h3>
 
-            <a href="#" onclick="CreateServerDetails()" class="btn btn-md btn-info float-right ml-3">Create New</a>
-            <div class="card-tools pt-1">
-                <div class="input-group input-group-md" style="width: 15rem;">
+                
+            </div>
+            <div class="col-md-4">
+                <div class="form-group row">
+                    <label for="inputEmail3" class="col-sm-4 col-form-label">Category</label>
+                    <div class="col-sm-8">
+                        <select class="custom-select" id="selectCategory">
+                            <option value="Test">Test</option>
+                            <option value="Live">Live</option>
+                            <option value="DR">Disaster Recovery</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <a href="#" onclick="CreateServerDetails()" class="btn btn-md btn-info float-right ml-3">Create New</a>
+
+                <div class="input-group input-group-md" style="width: 18rem;">
                     <input type="text" id="searchString" class="form-control float-right" placeholder="Search">
 
                     <div class="input-group-append">
@@ -21,6 +38,8 @@
                 </div>
 
             </div>
+        </div>
+        
     </div>
     <!-- /.card-header -->
     <div class="card-body p-0">
@@ -209,6 +228,21 @@
             search();
         });
     });
+    function displayResult(result) {
+        var c;
+        for (var i = 0, l = result.length; i < l; i++) {
+            let cat = result[i].categories == '1' ? "Live"
+                : result[i].categories == '0' ? "Test"
+                    : result[i].categories == '2' ? "DR" : "Live";
+
+            let badge = cat == "Live" ? "badge-success"
+                : cat == "Test" ? "badge-warning"
+                    : cat == "DR" ? "badge-danger" : "badge-info";
+
+            c += '<tr>  <td class="copy" data-clipboard-text="' + result[i].name + '"> ' + result[i].name + '</td>' + '<td class="copy" data-clipboard-text="' + result[i].username + '"> ' + result[i].username + '</td>' + '<td class="copy" data-clipboard-text="' + result[i].password + '"> ' + result[i].password + '</td>' + '<td> <span  class="copy badge ' + badge + '" data-clipboard-text="' + cat + '">' + cat + '</span> </td>' + '<td class="copy" data-clipboard-text="' + result[i].clientName + '"> ' + result[i].clientName + '</td>' + ' <td> <a href="#" onclick="EditServerDetails(' + result[i].id + ')"s>Edit</a>  <a href="#" onclick="ViewServerDetails(' + result[i].id + ')">Details</a> <a href="#" onclick="DeleteServerDetails(' + result[i].id + ')"> Delete </a> </td></tr>'
+        }
+        $('#table').html(c);
+    }
     function search() {
         let searchStringValue = $('#searchString').val();
         $.ajax({
@@ -217,21 +251,23 @@
             url: 'Server/Search',
             success: function (result) {
                 if (result.length > 0) {
-                    var c;
-                    for (var i = 0, l = result.length; i < l; i++) {
-                        let cat = result[i].categories == '1' ? "Live"
-                            : result[i].categories == '0' ? "Test"
-                                : result[i].categories == '2' ? "DR" : "Live";
-
-                        let badge = cat == "Live" ? "badge-success"
-                            : cat == "Test" ? "badge-warning"
-                                : cat == "DR" ? "badge-danger" : "badge-info";
-
-                        c += '<tr>  <td class="copy" data-clipboard-text="' + result[i].name + '"> ' + result[i].name + '</td>' + '<td class="copy" data-clipboard-text="' + result[i].username + '"> ' + result[i].username + '</td>' + '<td class="copy" data-clipboard-text="' + result[i].password + '"> ' + result[i].password + '</td>' + '<td> <span  class="copy badge ' + badge + '" data-clipboard-text="' + cat + '">' + cat + '</span> </td>' + '<td class="copy" data-clipboard-text="' + result[i].clientName + '"> ' + result[i].clientName + '</td>' + ' <td> <a href="#" onclick="EditServerDetails(' + result[i].id + ')"s>Edit</a>  <a href="#" onclick="ViewServerDetails(' + result[i].id + ')">Details</a> <a href="#" onclick="DeleteServerDetails(' + result[i].id + ')"> Delete </a> </td></tr>'
-                    }
-                    $('#table').html(c);
+                    displayResult(result);
                 }
             }
         });
     }
+
+    $('#selectCategory').on('change', function () {
+        var searchStringValue = $('#selectCategory option:selected').val();
+        $.ajax({
+            type: 'GET',
+            data: { searchString: searchStringValue },
+            url: 'Server/Category',
+            success: function (result) {
+                if (result.length > 0) {
+                    displayResult(result);
+                }
+            }
+        });
+    });
 </script>
