@@ -4,15 +4,22 @@
     ViewData["Title"] = "Index";
     Layout = "/Views/Shared/_DashboardLayout.cshtml";
 }
+<style>
+    @@media only screen and (max-width: 420px) {
+      .input-search {
+        margin-top: .4rem !important;
+      }
+}
 
+</style>
  
 <div class="card">
     <div class="card-header border-transparent">
-        <h3 class="card-title">Client List</h3>
+        <h3 class="card-title pt-1">Client List</h3>
         <a href="#" onclick="CreateClientDetails()" class="btn btn-md btn-info float-right ml-3">Create New</a>
 
         <div class="card-tools pt-1">
-            <div class="input-group input-group-md" style="width: 15rem;">
+            <div class="input-group input-group-md input-search" style="width: 18rem;">
                 <input type="text" id="searchString" class="form-control float-right" placeholder="Search">
 
                 <div class="input-group-append">
