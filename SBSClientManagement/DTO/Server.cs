@@ -17,7 +17,7 @@ namespace SBSClientManagement.DTO
         {
             Test,
             Live,
-            Devlopment
+            DR
         }
     }
 }

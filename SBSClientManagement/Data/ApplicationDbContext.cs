@@ -17,6 +17,5 @@ namespace SBSClientManagement.Data
         public DbSet<Client> Clients { get; set; }
         public DbSet<Server> Servers { get; set; }
         public DbSet<Vpn> Vpns { get; set; }
-        public DbSet<SQLServer> SQLServers { get; set; }
     }
 }

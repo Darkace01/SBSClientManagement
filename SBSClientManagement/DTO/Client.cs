@@ -10,6 +10,5 @@ namespace SBSClientManagement.DTO
         public string Name { get; set; }
         public ICollection<Server> Servers { get; set; }
         public ICollection<Vpn> VPN { get; set; }
-        public ICollection<SQLServer> SQLServers { get; set; }
     }
 }
