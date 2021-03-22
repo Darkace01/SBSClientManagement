@@ -179,7 +179,6 @@ namespace SBSClientManagement.Controllers
             if (_server == null)
                 return NotFound();
             var _client = _clientRepo.GetById(_server.ClientId);
-            _server.Password = EncryptionHelper.DecryptStringAES(_server.Password);
             DeleteServerViewModel server = _mapper.Map<DeleteServerViewModel>(_server);
             server.ClientName = _client.Name;
             return PartialView("_DeleteConfirmation", server);

@@ -232,10 +232,8 @@
     });
     function DecriptPassword(password) {
         var identify = document.getElementById(password);
-        console.log("here")
         var decry = "";
         if (identify.classList.contains("encrypt")) {
-            console.log("here")
             decry = SiteUtils.decrypt(identify.innerText);
             identify.classList.remove("encrypt");
             identify.classList.add("decrypt");

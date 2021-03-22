@@ -5,7 +5,7 @@
     Layout = "/Views/Shared/_DashboardLayout.cshtml";
 }
 
- 
+
 <div class="card">
     <div class="card-header border-transparent">
         <h3 class="card-title">Vpn List</h3>
@@ -45,25 +45,26 @@
                 <tbody id="table">
                     @foreach (var item in Model)
                     {
-                    <tr>
-                        <td class="copy" data-clipboard-text="@item.Name">
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td class="copy" data-clipboard-text="@item.Username">
-                            @Html.DisplayFor(modelItem => item.Username)
-                        </td>
-                        <td class="copy" data-clipboard-text="@item.Password">
-                            @Html.DisplayFor(modelItem => item.Password)
-                        </td>
-                        <td class="copy" data-clipboard-text="@item.ClientName">
-                            @Html.DisplayFor(modelItem => item.ClientName)
-                        </td>
-                        <td>
-                            <a href="#" onclick="EditVpnDetails(@item.Id)">Edit</a>
-                            <a href="#" onclick="ViewVpnDetails(@item.Id)">Details</a>
-                            <a href="#" onclick="DeleteVpnDetails(@item.Id)">Delete</a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td class="copy" data-clipboard-text="@item.Name">
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td class="copy" data-clipboard-text="@item.Username">
+                                @Html.DisplayFor(modelItem => item.Username)
+                            </td>
+                            <td>
+                                <span id="@item.Id" class="encrypt">@Html.DisplayFor(modelItem => item.Password)</span>
+                                <i class="ml-2 fas fa-eye" onclick="DecriptPassword('@item.Id')"></i>
+                            </td>
+                            <td class="copy" data-clipboard-text="@item.ClientName">
+                                @Html.DisplayFor(modelItem => item.ClientName)
+                            </td>
+                            <td>
+                                <a href="#" onclick="EditVpnDetails(@item.Id)">Edit</a>
+                                <a href="#" onclick="ViewVpnDetails(@item.Id)">Details</a>
+                                <a href="#" onclick="DeleteVpnDetails(@item.Id)">Delete</a>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -146,6 +147,9 @@
     </div>
 
 </div>
+<script src="~/js/dependencies.min.js"></script>
+<script src="~/js/jquery.datetimepicker.js"></script>
+<script src="~/js/AppUtils.js"></script>
 <script>
     $(document).ready(function () {
         $('#searchBtn').on('click', function () {
@@ -155,6 +159,21 @@
             search();
         });
     });
+    function DecriptPassword(password) {
+        var identify = document.getElementById(password);
+        var identifyClass = identify.classList;
+        var decry = "";
+        if (identifyClass.contains("encrypt")) {
+            decry = SiteUtils.decrypt(identify.innerText);
+            identify.classList.remove("encrypt");
+            identify.classList.add("decrypt");
+        } else if (identifyClass.contains("decrypt")) {
+            decry = SiteUtils.encrypt(identify.innerText);
+            identify.classList.remove("decrypt");
+            identify.classList.add("encrypt");
+        }
+        identify.innerText = decry;
+    }
     function search() {
         let searchStringValue = $('#searchString').val();
         $.ajax({
@@ -165,7 +184,7 @@
                 if (result.length > 0) {
                     var c;
                     for (var i = 0, l = result.length; i < l; i++) {
-                        c += '<tr> <td class="copy" data-clipboard-text="' + result[i].name + '"> ' + result[i].name + '</td> <td class="copy" data-clipboard-text="' + result[i].username + '"> ' + result[i].username + '</td> <td class="copy" data-clipboard-text="' + result[i].password + '"> ' + result[i].password + '<td class="copy" data-clipboard-text="' + result[i].clientName + '"> ' + result[i].clientName + '</td > <td> <a href="#" onclick="EditVpnDetails(' + result[i].id + ')"s>Edit</a>  <a href="#" onclick="ViewVpnDetails(' + result[i].id + ')">Details</a> <a href="#" onclick="DeleteVpnDetails(' + result[i].id + ')"> Delete </a></td></tr>'
+                        c += '<tr> <td class="copy" data-clipboard-text="' + result[i].name + '"> ' + result[i].name + '</td> <td class="copy" data-clipboard-text="' + result[i].username + '"> ' + result[i].username + '</td>' + '< td > <span class="encrypt" id="' + result[i].id + '"> ' + result[i].password + '</span> <i class="ml-2 fas fa-eye" onclick="DecriptPassword(' + result[i].id + ')"</i></td>' + '<td class="copy" data-clipboard-text="' + result[i].clientName + '"> ' + result[i].clientName + '</td > <td> <a href="#" onclick="EditVpnDetails(' + result[i].id + ')"s>Edit</a>  <a href="#" onclick="ViewVpnDetails(' + result[i].id + ')">Details</a> <a href="#" onclick="DeleteVpnDetails(' + result[i].id + ')"> Delete </a></td></tr>'
                     }
                     $('#table').html(c);
                 }
