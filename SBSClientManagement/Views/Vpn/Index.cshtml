@@ -27,7 +27,7 @@
                             Password
                         </th>
                         <th>
-                            ClientName
+                            Client Name
                         </th>
                         <th></th>
                         <th></th>
@@ -120,7 +120,7 @@
 <script>
     $(function () {
         $.ajax({
-            type: 'POST',
+            type: 'GET',
             url: 'Vpn/DataTable',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -144,7 +144,11 @@
                 data: response,
                 columns: [
                     { "data": "name" },
-                    { "data": "username" },
+                    {
+                        "render": function (data, type, full, meta) {
+                            return '<span  class="copy" data-clipboard-text="' + full.username + '">' + full.username + '</span>';
+                        }
+                    },
                     {
                         "render": function (data, type, full, meta) {
                             return '<span class="encrypt" id="' + full.id + '"> ' + full.password + '</span> <i class="ml-2 fas fa-eye" onclick="DecriptPassword(' + full.id + ')"</i>';

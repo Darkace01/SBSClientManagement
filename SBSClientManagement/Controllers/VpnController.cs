@@ -33,7 +33,6 @@ namespace SBSClientManagement.Controllers
            return View();
         }
 
-        [HttpPost]
         public IActionResult DataTable()
         {
             var _vpns = _vpnRepo.GetVpns();
