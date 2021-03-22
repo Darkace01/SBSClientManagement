@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
     Layout = "/Views/Shared/_DashboardLayout.cshtml";
 }
-<link asp-href-include="/css/datatables/*.css" rel="stylesheet"/>
+<link asp-href-include="/css/datatables/*.css" rel="stylesheet" />
 <div class="card">
     <div class="card-header border-transparent">
         <h3 class="card-title">Vpn List</h3>
@@ -116,9 +116,7 @@
 
 </div>
 <script asp-src-include="/js/datatables/*.js"></script>
-<script src="~/js/dependencies.min.js"></script>
-<script src="~/js/jquery.datetimepicker.js"></script>
-<script src="~/js/AppUtils.js"></script>
+<script asp-src-include="/js/encryption/*.js"></script>
 <script>
     $(function () {
         $.ajax({
