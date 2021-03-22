@@ -8,11 +8,26 @@
 
 <div class="card">
     <div class="card-header border-transparent">
-        <h3 class="card-title">Server List</h3>
+        <div class="row">
+            <div class="col-md-3">
+                <h3 class="card-title">Server List</h3>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group row">
+                    <label for="inputEmail3" class="col-sm-4 col-form-label">Category</label>
+                    <div class="col-sm-8">
+                        <select class="custom-select" id="selectCategory">
+                            <option value="Test">Test</option>
+                            <option value="Live">Live</option>
+                            <option value="DR">Disaster Recovery</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <a href="#" onclick="CreateServerDetails()" class="btn btn-md btn-info float-right ml-3">Create New</a>
 
-            <a href="#" onclick="CreateServerDetails()" class="btn btn-md btn-info float-right ml-3">Create New</a>
-            <div class="card-tools pt-1">
-                <div class="input-group input-group-md" style="width: 15rem;">
+                <div class="input-group input-group-md" style="width: 18rem;">
                     <input type="text" id="searchString" class="form-control float-right" placeholder="Search">
 
                     <div class="input-group-append">
@@ -21,6 +36,8 @@
                 </div>
 
             </div>
+        </div>
+
     </div>
     <!-- /.card-header -->
     <div class="card-body p-0">
@@ -51,7 +68,7 @@
                     {
                         string cat = item.Categories.ToString() == "Live" ? "badge-success"
                                     : item.Categories.ToString() == "Test" ? "badge-warning"
-                                    : item.Categories.ToString() == "Devlopment" ? "badge-danger" : "badge-info";
+                                    : item.Categories.ToString() == "DR" ? "badge-danger" : "badge-info";
                         <tr>
                             <td class="copy" data-clipboard-text="@item.Name">
                                 @Html.DisplayFor(modelItem => item.Name)
@@ -59,8 +76,9 @@
                             <td class="copy" data-clipboard-text="@item.Username">
                                 @Html.DisplayFor(modelItem => item.Username)
                             </td>
-                            <td class="copy" data-clipboard-text="@item.Password">
-                                @Html.DisplayFor(modelItem => item.Password)
+                            <td>
+                                <span id="@item.Id" class="encrypt">@Html.DisplayFor(modelItem => item.Password)</span>
+                                <i class="ml-2 fas fa-eye" onclick="DecriptPassword('@item.Id')"></i>
                             </td>
                             <td>
                                 <span class="copy badge @cat" data-clipboard-text="@item.Categories">
@@ -158,6 +176,9 @@
     </div>
 
 </div>
+<script src="~/js/dependencies.min.js"></script>
+<script src="~/js/jquery.datetimepicker.js"></script>
+<script src="~/js/AppUtils.js"></script>
 <script>
     function EditServerDetails(serverId) {
 
@@ -209,6 +230,39 @@
             search();
         });
     });
+    function DecriptPassword(password) {
+        var identify = document.getElementById(password);
+        var decry = "";
+        if (identify.classList.contains("encrypt")) {
+            decry = SiteUtils.decrypt(identify.innerText);
+            identify.classList.remove("encrypt");
+            identify.classList.add("decrypt");
+        } else if (identify.classList.contains("decrypt")) {
+            decry = SiteUtils.encrypt(identify.innerText);
+            identify.classList.remove("decrypt");
+            identify.classList.add("encrypt");
+        }
+        identify.innerText = decry;
+    }
+    function displayResult(result) {
+        var c;
+        for (var i = 0, l = result.length; i < l; i++) {
+            let cat = result[i].categories == '1' ? "Live"
+                : result[i].categories == '0' ? "Test"
+                    : result[i].categories == '2' ? "DR" : "Live";
+
+            let badge = cat == "Live" ? "badge-success"
+                : cat == "Test" ? "badge-warning"
+                    : cat == "DR" ? "badge-danger" : "badge-info";
+            c += '<tr>  <td class="copy" data-clipboard-text="' + result[i].name + '"> ' + result[i].name + '</td>'
+                + '<td class="copy" data-clipboard-text="' + result[i].username + '"> ' + result[i].username + '</td>'
+                + '<td> <span class="encrypt" id="' + result[i].id + '"> ' + result[i].password + '</span> <i class="ml-2 fas fa-eye" onclick="DecriptPassword(' + result[i].id + ')"</i></td>'
+                + '<td> <span  class="copy badge ' + badge + '" data-clipboard-text="' + cat + '">' + cat + '</span> </td>'
+                + '<td class="copy" data-clipboard-text="' + result[i].clientName + '"> ' + result[i].clientName + '</td>'
+                + ' <td> <a href="#" onclick="EditServerDetails(' + result[i].id + ')"s>Edit</a>  <a href="#" onclick="ViewServerDetails(' + result[i].id + ')">Details</a> <a href="#" onclick="DeleteServerDetails(' + result[i].id + ')"> Delete </a> </td></tr>'
+        }
+        $('#table').html(c);
+    }
     function search() {
         let searchStringValue = $('#searchString').val();
         $.ajax({
@@ -217,21 +271,23 @@
             url: 'Server/Search',
             success: function (result) {
                 if (result.length > 0) {
-                    var c;
-                    for (var i = 0, l = result.length; i < l; i++) {
-                        let cat = result[i].categories == '1' ? "Live"
-                            : result[i].categories == '0' ? "Test"
-                                : result[i].categories == '2' ? "Development" : "Live";
-
-                        let badge = cat == "Live" ? "badge-success"
-                            : cat == "Test" ? "badge-warning"
-                                : cat == "Development" ? "badge-danger" : "badge-info";
-
-                        c += '<tr>  <td class="copy" data-clipboard-text="' + result[i].name + '"> ' + result[i].name + '</td>' + '<td class="copy" data-clipboard-text="' + result[i].username + '"> ' + result[i].username + '</td>' + '<td class="copy" data-clipboard-text="' + result[i].password + '"> ' + result[i].password + '</td>' + '<td> <span  class="copy badge ' + badge + '" data-clipboard-text="' + cat + '">' + cat + '</span> </td>' + '<td class="copy" data-clipboard-text="' + result[i].clientName + '"> ' + result[i].clientName + '</td>' + ' <td> <a href="#" onclick="EditServerDetails(' + result[i].id + ')"s>Edit</a>  <a href="#" onclick="ViewServerDetails(' + result[i].id + ')">Details</a> <a href="#" onclick="DeleteServerDetails(' + result[i].id + ')"> Delete </a> </td></tr>'
-                    }
-                    $('#table').html(c);
+                    displayResult(result);
                 }
             }
         });
     }
+
+    $('#selectCategory').on('change', function () {
+        var searchStringValue = $('#selectCategory option:selected').val();
+        $.ajax({
+            type: 'GET',
+            data: { searchString: searchStringValue },
+            url: 'Server/Category',
+            success: function (result) {
+                if (result.length > 0) {
+                    displayResult(result);
+                }
+            }
+        });
+    });
 </script>

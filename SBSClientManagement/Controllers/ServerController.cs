@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SBSClientManagement.DTO;
+using SBSClientManagement.Helpers;
 using SBSClientManagement.Models.ViewModel;
 using SBSClientManagement.Repository;
 using System;
@@ -35,7 +36,7 @@ namespace SBSClientManagement.Controllers
                 item.ClientName = _clients.Where(c => c.Id == item.ClientId).FirstOrDefault().Name;
             }
 
-            return View(servers);
+            return View(servers.Where(s => s.Categories.ToString().ToLower().Contains("test")));
         }
 
         public IActionResult Search(string searchString)
@@ -58,6 +59,23 @@ namespace SBSClientManagement.Controllers
             return Json(servers);
         }
 
+        public IActionResult Category(string searchString)
+        {
+            var _servers = _serverRepo.GetServers();
+            var _clients = _clientRepo.GetClients();
+            List<ViewServerViewModel> servers = _mapper.Map<IEnumerable<ViewServerViewModel>>(_servers).ToList();
+            foreach (var item in servers)
+            {
+                item.ClientName = _clients.Where(c => c.Id == item.ClientId).FirstOrDefault().Name;
+            }
+            if (!String.IsNullOrEmpty(searchString))
+                servers = servers.Where(
+                            s => s.Categories.ToString().ToLower().Contains(searchString.ToLower()))
+                            .ToList();
+
+            return Json(servers);
+        }
+
         public IActionResult Details(int id)
         {
             if (id < 0)
@@ -66,7 +84,6 @@ namespace SBSClientManagement.Controllers
             if (_server == null)
                 return NotFound();
             var _client = _clientRepo.GetById(_server.ClientId);
-
             ViewServerViewModel server = _mapper.Map<ViewServerViewModel>(_server);
 
             server.ClientName = _client.Name;
@@ -100,6 +117,7 @@ namespace SBSClientManagement.Controllers
             {
                 if (!ModelState.IsValid)
                     return View(_serverModel);
+                _serverModel.Password = EncryptionHelper.EncryptStringAES(_serverModel.Password);
                 var serverModel = _mapper.Map<Server>(_serverModel);
 
                 _serverRepo.Create(serverModel);
@@ -119,6 +137,7 @@ namespace SBSClientManagement.Controllers
             var _server = _serverRepo.GetById(id);
             if (_server == null)
                 return NotFound();
+            _server.Password = EncryptionHelper.DecryptStringAES(_server.Password);
             EditServerViewModel server = _mapper.Map<EditServerViewModel>(_server);
             var selectedClient = _clientRepo.GetById(_server.ClientId);
             server.SelectedClient = _mapper.Map<CreateClientServerClientViewModel>(selectedClient);
@@ -138,7 +157,7 @@ namespace SBSClientManagement.Controllers
             {
                 if (!ModelState.IsValid)
                     return View(_serverModel);
-
+                _serverModel.Password = EncryptionHelper.EncryptStringAES(_serverModel.Password);
                 var server = _mapper.Map<Server>(_serverModel);
 
                 _serverRepo.Update(server);
@@ -160,7 +179,6 @@ namespace SBSClientManagement.Controllers
             if (_server == null)
                 return NotFound();
             var _client = _clientRepo.GetById(_server.ClientId);
-
             DeleteServerViewModel server = _mapper.Map<DeleteServerViewModel>(_server);
             server.ClientName = _client.Name;
             return PartialView("_DeleteConfirmation", server);

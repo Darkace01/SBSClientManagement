@@ -15,7 +15,6 @@ namespace SBSClientManagement.Profiles
             CreateMap<Client, ViewDashboardClientViewModel>();
             CreateMap<Server, ViewDashboardServerViewModel>();
             CreateMap<Vpn, ViewDashboardVpnViewModel>();
-            CreateMap<SQLServer, ViewDashboardSqlServerViewModel>();
         }
     }
 }

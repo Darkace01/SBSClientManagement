@@ -10,6 +10,7 @@ namespace SBSClientManagement.DTO
         public string Name { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public string PasswordSalt { get; set; }
         public Category Categories { get; set; }
         public int ClientId { get; set; }
 
@@ -17,7 +18,7 @@ namespace SBSClientManagement.DTO
         {
             Test,
             Live,
-            Devlopment
+            DR
         }
     }
 }

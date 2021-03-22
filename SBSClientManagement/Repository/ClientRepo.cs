@@ -46,7 +46,6 @@ namespace SBSClientManagement.Repository
                 throw new ArgumentNullException("Client");
             return _ctx.Clients.Where(c => c.Id == Id)
                 .Include(x => x.Servers)
-                .Include(x => x.SQLServers)
                 .Include(x => x.VPN)
                 .FirstOrDefault();
         }
@@ -61,7 +60,6 @@ namespace SBSClientManagement.Repository
         {
             var clients = _ctx.Clients
                 .Include(x => x.Servers)
-                .Include(x => x.SQLServers)
                 .Include(x => x.VPN)
                 .ToList();
             return clients;

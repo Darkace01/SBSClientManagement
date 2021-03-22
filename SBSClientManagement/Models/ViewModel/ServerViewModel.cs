@@ -19,7 +19,7 @@ namespace SBSClientManagement.Models.ViewModel
         {
             Test,
             Live,
-            Devlopment
+            DR
         }
     }
 
@@ -38,7 +38,7 @@ namespace SBSClientManagement.Models.ViewModel
         {
             Test,
             Live,
-            Devlopment
+            DR
         }
     }
 
@@ -65,7 +65,7 @@ namespace SBSClientManagement.Models.ViewModel
         {
             Test,
             Live,
-            Devlopment
+            DR
         }
     }
 

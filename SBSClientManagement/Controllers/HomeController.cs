@@ -15,20 +15,18 @@ namespace SBSClientManagement.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ISqlServerRepo _sqlServerRepo;
         private readonly IClientRepo _clientRepo;
         private readonly IServersRepo _serverRepo;
         private readonly IMapper _mapper;
         private readonly IVpnRepo _vpnRepo;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger, IVpnRepo vpnRepo, IServersRepo serverRepo, IClientRepo clientRepo, ISqlServerRepo sqlServerRepo, IMapper mapper)
+        public HomeController(ILogger<HomeController> logger, IVpnRepo vpnRepo, IServersRepo serverRepo, IClientRepo clientRepo, IMapper mapper)
         {
             _logger = logger;
             _vpnRepo = vpnRepo;
             _serverRepo = serverRepo;
             _clientRepo = clientRepo;
-            _sqlServerRepo = sqlServerRepo;
             _mapper = mapper;
         }
 
@@ -40,16 +38,16 @@ namespace SBSClientManagement.Controllers
         [Authorize]
         public IActionResult Dashboard()
         {
-            IEnumerable<ViewDashboardSqlServerViewModel> _sqlServers = _mapper.Map<IEnumerable<ViewDashboardSqlServerViewModel>>(_sqlServerRepo.GetSQLServers());
             IEnumerable<ViewDashboardClientViewModel> _clients = _mapper.Map<IEnumerable<ViewDashboardClientViewModel>>(_clientRepo.GetClients());
             IEnumerable<ViewDashboardServerViewModel> _servers = _mapper.Map<IEnumerable<ViewDashboardServerViewModel>>(_serverRepo.GetServers());
             IEnumerable<ViewDashboardVpnViewModel> _vpns = _mapper.Map<IEnumerable<ViewDashboardVpnViewModel>>(_vpnRepo.GetVpns());
 
-            var dashboardViewModel = new ViewDashboardViewModel();
-            dashboardViewModel.TotalClients = _clients.Count();
-            dashboardViewModel.TotalServers = _servers.Count();
-            dashboardViewModel.TotalSqlServer = _sqlServers.Count();
-            dashboardViewModel.TotalVpns = _vpns.Count();
+            var dashboardViewModel = new ViewDashboardViewModel
+            {
+                TotalClients = _clients.Count(),
+                TotalServers = _servers.Count(),
+                TotalVpns = _vpns.Count()
+            };
             foreach (var item in _servers)
             {
                 item.ClientName = _clients.Where(c => c.Id == item.ClientId).FirstOrDefault().Name;
@@ -59,14 +57,8 @@ namespace SBSClientManagement.Controllers
             {
                 item.ClientName = _clients.Where(c => c.Id == item.ClientId).FirstOrDefault().Name;
             }
-
-            foreach (var item in _sqlServers)
-            {
-                item.ClientName = _clients.Where(c => c.Id == item.ClientId).FirstOrDefault().Name;
-            }
             dashboardViewModel.Clients = _clients.Take(5);
             dashboardViewModel.Servers = _servers.Take(5);
-            dashboardViewModel.SqlServers = _sqlServers.Take(5);
             dashboardViewModel.Vpns = _vpns.Take(5);
             return View(dashboardViewModel);
         }

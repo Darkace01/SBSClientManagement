@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SBSClientManagement.DTO;
+using SBSClientManagement.Helpers;
 using SBSClientManagement.Models.ViewModel;
 using SBSClientManagement.Repository;
 using System;
@@ -103,6 +104,7 @@ namespace SBSClientManagement.Controllers
             {
                 if (!ModelState.IsValid)
                     return View(_vpn);
+                _vpn.Password = EncryptionHelper.EncryptStringAES(_vpn.Password);
                 var vpn = _mapper.Map<Vpn>(_vpn);
 
                 _vpnRepo.Create(vpn);
@@ -141,7 +143,7 @@ namespace SBSClientManagement.Controllers
             {
                 if (!ModelState.IsValid)
                     return PartialView("_Edit", _vpn);
-
+                _vpn.Password = EncryptionHelper.EncryptStringAES(_vpn.Password);
                 var vpn = _mapper.Map<Vpn>(_vpn);
 
                 _vpnRepo.Update(vpn);
