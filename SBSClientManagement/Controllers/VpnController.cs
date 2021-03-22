@@ -30,19 +30,10 @@ namespace SBSClientManagement.Controllers
         // GET: VpnController
         public IActionResult Index()
         {
-            var _vpns = _vpnRepo.GetVpns();
-            var _clients = _clientRepo.GetClients();
-
-            List<ViewVpnViewModel> vpns = _mapper.Map<IEnumerable<ViewVpnViewModel>>(_vpns).ToList();
-            foreach (var item in vpns)
-            {
-                item.ClientName = _clients.Where(c => c.Id == item.ClientId).FirstOrDefault().Name;
-            }
-
-            return View(vpns);
+           return View();
         }
 
-        public IActionResult Search(string searchString)
+        public IActionResult DataTable()
         {
             var _vpns = _vpnRepo.GetVpns();
             var _clients = _clientRepo.GetClients();
@@ -52,11 +43,6 @@ namespace SBSClientManagement.Controllers
             {
                 item.ClientName = _clients.Where(c => c.Id == item.ClientId).FirstOrDefault().Name;
             }
-            if (!String.IsNullOrEmpty(searchString))
-                vpns = vpns.Where(c =>
-                                    c.Name.ToLower().Contains(searchString.ToLower())
-                                    || c.ClientName.ToLower().Contains(searchString.ToLower())
-                                    || c.Username.ToLower().Contains(searchString.ToLower())).ToList();
             return Json(vpns);
         }
 

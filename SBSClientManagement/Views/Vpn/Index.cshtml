@@ -4,68 +4,36 @@
     ViewData["Title"] = "Index";
     Layout = "/Views/Shared/_DashboardLayout.cshtml";
 }
-
-
+<link asp-href-include="/css/datatables/*.css" rel="stylesheet" />
 <div class="card">
     <div class="card-header border-transparent">
         <h3 class="card-title">Vpn List</h3>
 
         <a href="#" onclick="CreateVpnDetails()" class="btn btn-md btn-info float-right ml-3">Create New</a>
-        <div class="card-tools pt-1">
-            <div class="input-group input-group-md" style="width: 15rem;">
-                <input type="text" id="searchString" class="form-control float-right" placeholder="Search">
-
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-default" id="searchBtn"><i class="fas fa-search"></i></button>
-                </div>
-            </div>
-
-        </div>
     </div>
     <!-- /.card-header -->
-    <div class="card-body p-0">
+    <div class="card-body p-3">
         <div class="table-responsive">
-            <table class="table m-0">
+            <table class="table table-bordered table-striped" id="tblCustomers">
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.Name)
+                            Name
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Username)
+                            Username
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Password)
+                            Password
                         </th>
                         <th>
                             Client Name
                         </th>
                         <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 <tbody id="table">
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td class="copy" data-clipboard-text="@item.Name">
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td class="copy" data-clipboard-text="@item.Username">
-                                @Html.DisplayFor(modelItem => item.Username)
-                            </td>
-                            <td>
-                                <span id="@item.Id" class="encrypt">@Html.DisplayFor(modelItem => item.Password)</span>
-                                <i class="ml-2 fas fa-eye" onclick="DecriptPassword('@item.Id')"></i>
-                            </td>
-                            <td class="copy" data-clipboard-text="@item.ClientName">
-                                @Html.DisplayFor(modelItem => item.ClientName)
-                            </td>
-                            <td>
-                                <a href="#" onclick="EditVpnDetails(@item.Id)">Edit</a>
-                                <a href="#" onclick="ViewVpnDetails(@item.Id)">Details</a>
-                                <a href="#" onclick="DeleteVpnDetails(@item.Id)">Delete</a>
-                            </td>
-                        </tr>
-                    }
                 </tbody>
             </table>
         </div>
@@ -147,50 +115,66 @@
     </div>
 
 </div>
-<script src="~/js/dependencies.min.js"></script>
-<script src="~/js/jquery.datetimepicker.js"></script>
-<script src="~/js/AppUtils.js"></script>
+<script asp-src-include="/js/datatables/*.js"></script>
+<script asp-src-include="/js/encryption/*.js"></script>
 <script>
-    $(document).ready(function () {
-        $('#searchBtn').on('click', function () {
-            search();
-        });
-        $('#searchString').on('keyup', function () {
-            search();
-        });
-    });
-    function DecriptPassword(password) {
-        var identify = document.getElementById(password);
-        var identifyClass = identify.classList;
-        var decry = "";
-        if (identifyClass.contains("encrypt")) {
-            decry = SiteUtils.decrypt(identify.innerText);
-            identify.classList.remove("encrypt");
-            identify.classList.add("decrypt");
-        } else if (identifyClass.contains("decrypt")) {
-            decry = SiteUtils.encrypt(identify.innerText);
-            identify.classList.remove("decrypt");
-            identify.classList.add("encrypt");
-        }
-        identify.innerText = decry;
-    }
-    function search() {
-        let searchStringValue = $('#searchString').val();
+    $(function () {
         $.ajax({
             type: 'GET',
-            data: { searchString: searchStringValue },
-            url: 'Vpn/Search',
-            success: function (result) {
-                if (result.length > 0) {
-                    var c;
-                    for (var i = 0, l = result.length; i < l; i++) {
-                        c += '<tr> <td class="copy" data-clipboard-text="' + result[i].name + '"> ' + result[i].name + '</td> <td class="copy" data-clipboard-text="' + result[i].username + '"> ' + result[i].username + '</td>' + '< td > <span class="encrypt" id="' + result[i].id + '"> ' + result[i].password + '</span> <i class="ml-2 fas fa-eye" onclick="DecriptPassword(' + result[i].id + ')"</i></td>' + '<td class="copy" data-clipboard-text="' + result[i].clientName + '"> ' + result[i].clientName + '</td > <td> <a href="#" onclick="EditVpnDetails(' + result[i].id + ')"s>Edit</a>  <a href="#" onclick="ViewVpnDetails(' + result[i].id + ')">Details</a> <a href="#" onclick="DeleteVpnDetails(' + result[i].id + ')"> Delete </a></td></tr>'
-                    }
-                    $('#table').html(c);
-                }
+            url: 'Vpn/DataTable',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: function (response) {
+                alert(response.d);
+            },
+            error: function (response) {
+                alert(response.d);
             }
         });
-    }
+    });
+    function OnSuccess(response) {
+        $("#tblCustomers").DataTable(
+            {
+                bLengthChange: true,
+                lengthMenu: [[5, 10, -1], [5, 10, "All"]],
+                bFilter: true,
+                bSort: true,
+                bPaginate: true,
+                data: response,
+                columns: [
+                    { "data": "name" },
+                    {
+                        "render": function (data, type, full, meta) {
+                            return '<span  class="copy" data-clipboard-text="' + full.username + '">' + full.username + '</span>';
+                        }
+                    },
+                    {
+                        "render": function (data, type, full, meta) {
+                            return '<span class="encrypt" id="' + full.id + '"> ' + full.password + '</span> <i class="ml-2 fas fa-eye" onclick="DecriptPassword(' + full.id + ')"</i>';
+                        }
+                    },
+                    { "data": "clientName" },
+                    {
+                        "render": function (data, type, full, meta) {
+                            return '<a class="btn btn-info" href="#" onclick ="EditVpnDetails(' + full.id + ')">Edit</a>';
+                        }
+                    },
+                    {
+                        "render": function (data, type, full, meta) {
+                            return '<a class="btn btn-info" href="#" onclick ="ViewVpnDetails(' + full.id + ')">Details</a>';
+                        }
+                    },
+                    {
+                        "render": function (data, type, full, meta) {
+                            return '<a class="btn btn-danger" href="#" onclick ="DeleteVpnDetails(' + full.id + ')">Delete</a>';
+                        }
+                    },
+
+                ],
+            });
+    };
+
     function EditVpnDetails(vpnId) {
 
         var url = "/Vpn/Edit?id=" + vpnId;

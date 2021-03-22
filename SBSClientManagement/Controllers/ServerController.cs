@@ -28,15 +28,7 @@ namespace SBSClientManagement.Controllers
 
         public IActionResult Index()
         {
-            var _servers = _serverRepo.GetServers();
-            var _clients = _clientRepo.GetClients();
-            List<ViewServerViewModel> servers = _mapper.Map<IEnumerable<ViewServerViewModel>>(_servers).ToList();
-            foreach (var item in servers)
-            {
-                item.ClientName = _clients.Where(c => c.Id == item.ClientId).FirstOrDefault().Name;
-            }
-
-            return View(servers.Where(s => s.Categories.ToString().ToLower().Contains("test")));
+            return View();
         }
 
         public IActionResult Search(string searchString)
@@ -54,23 +46,6 @@ namespace SBSClientManagement.Controllers
                             || s.Username.ToLower().Contains(searchString.ToLower())
                             || s.ClientName.ToLower().Contains(searchString.ToLower())
                             || s.Categories.ToString().ToLower().Contains(searchString.ToLower()))
-                            .ToList();
-
-            return Json(servers);
-        }
-
-        public IActionResult Category(string searchString)
-        {
-            var _servers = _serverRepo.GetServers();
-            var _clients = _clientRepo.GetClients();
-            List<ViewServerViewModel> servers = _mapper.Map<IEnumerable<ViewServerViewModel>>(_servers).ToList();
-            foreach (var item in servers)
-            {
-                item.ClientName = _clients.Where(c => c.Id == item.ClientId).FirstOrDefault().Name;
-            }
-            if (!String.IsNullOrEmpty(searchString))
-                servers = servers.Where(
-                            s => s.Categories.ToString().ToLower().Contains(searchString.ToLower()))
                             .ToList();
 
             return Json(servers);
