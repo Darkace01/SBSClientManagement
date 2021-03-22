@@ -11,8 +11,6 @@
         <div class="row">
             <div class="col-md-3">
                 <h3 class="card-title">Server List</h3>
-
-                
             </div>
             <div class="col-md-4">
                 <div class="form-group row">
@@ -39,7 +37,7 @@
 
             </div>
         </div>
-        
+
     </div>
     <!-- /.card-header -->
     <div class="card-body p-0">
@@ -78,8 +76,9 @@
                             <td class="copy" data-clipboard-text="@item.Username">
                                 @Html.DisplayFor(modelItem => item.Username)
                             </td>
-                            <td class="copy" data-clipboard-text="@item.Password">
-                                @Html.DisplayFor(modelItem => item.Password)
+                            <td>
+                                <span id="@item.Id" class="encrypt">@Html.DisplayFor(modelItem => item.Password)</span>
+                                <i class="ml-2 fas fa-eye" onclick="DecriptPassword('@item.Id')"></i>
                             </td>
                             <td>
                                 <span class="copy badge @cat" data-clipboard-text="@item.Categories">
@@ -177,6 +176,9 @@
     </div>
 
 </div>
+<script src="~/js/dependencies.min.js"></script>
+<script src="~/js/jquery.datetimepicker.js"></script>
+<script src="~/js/AppUtils.js"></script>
 <script>
     function EditServerDetails(serverId) {
 
@@ -228,6 +230,22 @@
             search();
         });
     });
+    function DecriptPassword(password) {
+        var identify = document.getElementById(password);
+        console.log("here")
+        var decry = "";
+        if (identify.classList.contains("encrypt")) {
+            console.log("here")
+            decry = SiteUtils.decrypt(identify.innerText);
+            identify.classList.remove("encrypt");
+            identify.classList.add("decrypt");
+        } else if (identify.classList.contains("decrypt")) {
+            decry = SiteUtils.encrypt(identify.innerText);
+            identify.classList.remove("decrypt");
+            identify.classList.add("encrypt");
+        }
+        identify.innerText = decry;
+    }
     function displayResult(result) {
         var c;
         for (var i = 0, l = result.length; i < l; i++) {
@@ -238,8 +256,12 @@
             let badge = cat == "Live" ? "badge-success"
                 : cat == "Test" ? "badge-warning"
                     : cat == "DR" ? "badge-danger" : "badge-info";
-
-            c += '<tr>  <td class="copy" data-clipboard-text="' + result[i].name + '"> ' + result[i].name + '</td>' + '<td class="copy" data-clipboard-text="' + result[i].username + '"> ' + result[i].username + '</td>' + '<td class="copy" data-clipboard-text="' + result[i].password + '"> ' + result[i].password + '</td>' + '<td> <span  class="copy badge ' + badge + '" data-clipboard-text="' + cat + '">' + cat + '</span> </td>' + '<td class="copy" data-clipboard-text="' + result[i].clientName + '"> ' + result[i].clientName + '</td>' + ' <td> <a href="#" onclick="EditServerDetails(' + result[i].id + ')"s>Edit</a>  <a href="#" onclick="ViewServerDetails(' + result[i].id + ')">Details</a> <a href="#" onclick="DeleteServerDetails(' + result[i].id + ')"> Delete </a> </td></tr>'
+            c += '<tr>  <td class="copy" data-clipboard-text="' + result[i].name + '"> ' + result[i].name + '</td>'
+                + '<td class="copy" data-clipboard-text="' + result[i].username + '"> ' + result[i].username + '</td>'
+                + '<td> <span class="encrypt" id="' + result[i].id + '"> ' + result[i].password + '</span> <i class="ml-2 fas fa-eye" onclick="DecriptPassword(' + result[i].id + ')"</i></td>'
+                + '<td> <span  class="copy badge ' + badge + '" data-clipboard-text="' + cat + '">' + cat + '</span> </td>'
+                + '<td class="copy" data-clipboard-text="' + result[i].clientName + '"> ' + result[i].clientName + '</td>'
+                + ' <td> <a href="#" onclick="EditServerDetails(' + result[i].id + ')"s>Edit</a>  <a href="#" onclick="ViewServerDetails(' + result[i].id + ')">Details</a> <a href="#" onclick="DeleteServerDetails(' + result[i].id + ')"> Delete </a> </td></tr>'
         }
         $('#table').html(c);
     }
