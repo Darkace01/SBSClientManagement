@@ -1,0 +1,77 @@
+﻿@model SBSClientManagement.Models.ViewModel.UserViewModel
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form id="newValidationForm" onsubmit="return validateForm()">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" type="password" required id="password" />
+                <span asp-validation-for="Password" class="text-danger" id="error"></span>
+            </div>
+            <div class="form-group">
+                <input type="button" value="Validate" onclick="return validateForm()" class="btn btn-primary form-control" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    let errorResponse = document.getElementById("error");
+    function validateForm() {
+        let name = document.getElementById("password").value;
+        errorResponse.value = "";
+        if (name.length > 0) {
+            sendData()
+        } else {
+            errorResponse.innerHTML = "Input a Valid Password";
+            return false;
+        }
+    }
+
+    function encryption() {
+        var identify = document.getElementById(encryptpassword);
+        var identifyClass = identify.classList;
+        var decry = "";
+        if (identifyClass.contains("encrypt")) {
+            decry = SiteUtils.decrypt(identify.innerText);
+            identify.classList.remove("encrypt");
+            identify.classList.add("decrypt");
+        } else if (identifyClass.contains("decrypt")) {
+            decry = SiteUtils.encrypt(identify.innerText);
+            identify.classList.remove("decrypt");
+            identify.classList.add("encrypt");
+        }
+        identify.innerText = decry;
+    }
+
+    function sendData() {
+        var valdata = $("#newValidationForm").serialize();
+        console.log(valdata);
+        $.ajax({
+            url: "/Home/ValidateUser",
+            type: "POST",
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            data: valdata,
+            success: function (result) {
+                if (result.statusCode == 200 && result.value == true) {
+                    $("#validateModel").modal("hide");
+                    encryption();
+                } else {
+                    alertify.notify('Invalid Password', 'error', 5, function () { });
+                    return false;
+                }
+            },
+            error: function (result) {
+                alertify.notify('Invalid Password', 'error', 5, function () { });
+                return false;
+            }
+        });
+    }
+</script>

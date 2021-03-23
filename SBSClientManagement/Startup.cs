@@ -39,6 +39,7 @@ namespace SBSClientManagement
             services.AddScoped<IClientRepo, ClientRepo>();
             services.AddScoped<IServersRepo, ServersRepo>();
             services.AddScoped<IVpnRepo, VpnRepo>();
+            services.AddScoped<IUserRepo, UserRepo>();
 
             services.AddControllersWithViews();
 

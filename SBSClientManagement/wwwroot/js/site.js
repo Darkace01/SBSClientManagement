@@ -1,5 +1,5 @@
 ﻿var clipboard = new ClipboardJS('.copy');
-
+let encryptpassword = null;
 clipboard.on('success', function (e) {
     alertify.notify('copied', 'success', 5, function () { });
 });
@@ -18,17 +18,17 @@ $(document).ready(function () {
     });
 });
 function DecriptPassword(password) {
-    var identify = document.getElementById(password);
-    var identifyClass = identify.classList;
-    var decry = "";
-    if (identifyClass.contains("encrypt")) {
-        decry = SiteUtils.decrypt(identify.innerText);
-        identify.classList.remove("encrypt");
-        identify.classList.add("decrypt");
-    } else if (identifyClass.contains("decrypt")) {
-        decry = SiteUtils.encrypt(identify.innerText);
-        identify.classList.remove("decrypt");
-        identify.classList.add("encrypt");
-    }
-    identify.innerText = decry;
+    encryptpassword = password;
+    ValidatePassword();
+}
+
+function ValidatePassword() {
+
+    var url = "/Home/ValidateUser";
+
+    $("#validateModelBody").load(url, function () {
+        $("#validateModel").modal("show");
+
+    })
+
 }
