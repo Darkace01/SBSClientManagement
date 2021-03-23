@@ -22,9 +22,9 @@
 </div>
 
 <script>
-    let errorResponse = document.getElementById("error");
+    var errorResponse = document.getElementById("error");
     function validateForm() {
-        let name = document.getElementById("password").value;
+        var name = document.getElementById("password").value;
         errorResponse.value = "";
         if (name.length > 0) {
             sendData()
@@ -35,24 +35,22 @@
     }
 
     function encryption() {
-        var identify = document.getElementById(encryptpassword);
-        var identifyClass = identify.classList;
+        var identifyPassword = document.getElementById(encryptpassword);
+        var identifyIcon = document.getElementById(encryptpassword + 'icon');
+        var identifyPasswordClass = identifyPassword.classList;
         var decry = "";
-        if (identifyClass.contains("encrypt")) {
-            decry = SiteUtils.decrypt(identify.innerText);
-            identify.classList.remove("encrypt");
-            identify.classList.add("decrypt");
-        } else if (identifyClass.contains("decrypt")) {
-            decry = SiteUtils.encrypt(identify.innerText);
-            identify.classList.remove("decrypt");
-            identify.classList.add("encrypt");
+        if (identifyPasswordClass.contains("encrypt")) {
+            decry = SiteUtils.decrypt(identifyPassword.innerText);
+            identifyPassword.classList.remove("encrypt");
+            identifyPassword.classList.add("decrypt");
+            identifyIcon.classList.remove("fa-lock");
+            identifyIcon.classList.add("fa-unlock");
         }
-        identify.innerText = decry;
+        identifyPassword.innerText = decry;
     }
 
     function sendData() {
         var valdata = $("#newValidationForm").serialize();
-        console.log(valdata);
         $.ajax({
             url: "/Home/ValidateUser",
             type: "POST",

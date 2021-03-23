@@ -19,7 +19,20 @@ $(document).ready(function () {
 });
 function DecriptPassword(password) {
     encryptpassword = password;
-    ValidatePassword();
+    var identify = document.getElementById(password);
+    var identifyIcon = document.getElementById(password + 'icon');
+    var identifyClass = identify.classList;
+    var decry = "";
+    if (identifyClass.contains("encrypt")) {
+        ValidatePassword();
+    } else {
+        decry = SiteUtils.encrypt(identify.innerText);
+        identify.classList.remove("decrypt");
+        identify.classList.add("encrypt");
+        identifyIcon.classList.remove("fa-unlock");
+        identifyIcon.classList.add("fa-lock");
+        identify.innerText = decry;
+    }
 }
 
 function ValidatePassword() {
