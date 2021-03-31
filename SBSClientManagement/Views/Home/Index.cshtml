@@ -1,12 +1,13 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
 <div class="row">
-    <div class="col-md-6 mt-5">
-        <h1 class="display-3">Welcome</h1>
-        <h3>To <b>Simplex</b> Client Login Details</h3>
-        <a asp-action="Dashboard" class="btn btn-lg btn-primary">View Dashboard</a>
-    </div>
     <div class="col-md-6"></div>
+    <div class="col-md-6 home-overlay">
+        <div class="text-left p-4 mt-5">
+            <h1 class="display-3">Welcome To <br /> Simplex Client <br /> Management</h1>
+            <a asp-action="Dashboard" class="btn home-button">Get Started</a>
+        </div>
+    </div>
 </div>
+

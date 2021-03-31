@@ -69,3 +69,40 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+.landing-page {
+    background-image: url('../Assets/Images/bg.jpg');
+    background-position: center;
+    height: 82.5vh;
+}
+.home-overlay {
+    background-color: #ff00145e;
+    height: 82.5vh;
+    color: white;
+    font-family: Montserrat;
+}
+.home-overlay .display-3{
+    font-weight: 600;
+}
+
+.home-button {
+    background-color: #335A82;
+    border-radius: 0;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 1.3rem;
+}
+
+.home-button:hover{
+    color: white;
+    background-color: #335a82b0;
+}
+
+@media (max-width: 480px) {
+    .home-overlay .display-3 {
+        font-size: 3rem;
+        margin-bottom: 16px;
+        margin-top: 50px;
+    }
+}
