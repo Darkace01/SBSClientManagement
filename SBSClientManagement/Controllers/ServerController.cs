@@ -112,7 +112,7 @@ namespace SBSClientManagement.Controllers
             var _server = _serverRepo.GetById(id);
             if (_server == null)
                 return NotFound();
-            _server.Password = EncryptionHelper.DecryptStringAES(_server.Password);
+            // _server.Password = EncryptionHelper.DecryptStringAES(_server.Password);
             EditServerViewModel server = _mapper.Map<EditServerViewModel>(_server);
             var selectedClient = _clientRepo.GetById(_server.ClientId);
             server.SelectedClient = _mapper.Map<CreateClientServerClientViewModel>(selectedClient);
